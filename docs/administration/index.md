@@ -12,6 +12,7 @@ Administration covers the complete Linkiir platform lifecycle.
 - [Licensing](licensing/index.md): Activation, capacity and expiry, and transfer to a replacement installation.
 - [Upgrades](upgrades/index.md): In-place procedures by operating system.
 - [Deployment](deployment/index.md): DEV, TEST, PROD, HA, and moving projects between environments.
+- [High Availability](../high-availability/index.md): Active/standby pairs, topologies, requirements, and how HA differs from backup and disaster recovery.
 - [Configurations](configurations/index.md): Project settings, users and roles, migration, Log Archive DB, and Kafka.
 - [Backup and Restore](backup-restore/index.md): Protect and recover the Linkiir working directory.
 - [Alerting and Notifications](notifications/index.md): Monitoring Linkiir, and alerting from a workflow.
@@ -28,6 +29,7 @@ Administration covers the complete Linkiir platform lifecycle.
 | Set project variables and secrets | [Project Settings](configurations/project-settings.md) |
 | Connect my own Kafka cluster | [Kafka Configuration](configurations/kafka-redpanda.md) |
 | Replace the server Linkiir runs on | [Backup and Restore](backup-restore/index.md), then [License Transfer](licensing/license-transfer.md) |
+| Survive a server failure without an outage | [High Availability](../high-availability/index.md) |
 | Get alerted when an interface fails | [Alerting and Notifications](notifications/index.md) |
 
 ## Daily operational checks

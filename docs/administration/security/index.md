@@ -60,6 +60,12 @@ Node listeners are a separate decision from the Grid. An LLP listener has to be 
 
 Use secure broker protocols such as `SSL` or `SASL_SSL` where your broker requires them. See [Kafka Configuration](../configurations/kafka-redpanda.md).
 
+### Outbound connections from interfaces
+
+Outbound HTTP calls made from a script verify the destination's certificate by default. Leave that verification on.
+
+Where a partner API requires mutual TLS, a script can present a client certificate on the call instead of routing through a separate proxy. Put the PEM certificate and key on the Linkiir server, readable only by the Runtime account, and reference them by path. See [Client certificates (mutual TLS)](../../api/scripting-api/connectivity.md#client-certificates-mutual-tls).
+
 ---
 
 ## 3. Sessions

@@ -1,0 +1,8 @@
+{
+  "label": "High Availability",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "What Linkiir High Availability is, its design and licensing, system requirements, the five supported topologies, how to use the High Availability settings, and how HA differs from backup and disaster recovery."
+  }
+}

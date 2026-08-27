@@ -111,7 +111,7 @@ print(Msg:name(), Msg:count())
 **Example**
 
 ```lua
-print('processing', linkiir.sys.guid())
+print('processing', linkiir.sys.guid(128))
 ```
 
 

@@ -30,7 +30,7 @@ Transport nodes are configured with fields, not code. You write Lua only where t
 The palette shows a group heading and a short name. In running text, naming a node type needs both, so this documentation writes them together — "Source HTTP", "Destination File/FTP". In the Grid you will see **HTTP** under **Source**.
 :::
 
-Your project's own [node templates](../../administration/configurations/project-settings.md) appear in the same palette, under the group matching their type.
+Your project's own [node templates](../../administration/configurations/project-settings.md) appear in the same palette, under the group matching their type. Prebuilt [adapters](../../adapters/index.md) arrive as templates too, so an Epic or S3 node is added the same way as any other and configured with fields.
 
 :::caution Destination Custom
 The palette also offers **Custom** under **Destination**. It has no runtime implementation in this release — a workflow containing one will not run it. Use **Transform Custom** for script-driven delivery instead: a transform node that calls out and never pushes is a destination in every practical sense. See [Custom Scripting Nodes](custom-scripting-nodes.md).

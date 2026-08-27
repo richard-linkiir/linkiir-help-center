@@ -15,18 +15,24 @@ Small runtime helpers and filesystem access in one place. Time/env helpers (os.d
 *function*
 
 ```lua
-linkiir.sys.guid()
+linkiir.sys.guid(bits)
 ```
 
-Generate a random UUID.
+Generate a random identifier.
 
-Generate a random UUID v4.
+Generate a random identifier of the requested strength. `bits` is required — a call with no argument raises.
 
 **Usage**
 
 ```lua
-local id = linkiir.sys.guid()
+local id = linkiir.sys.guid(128)
 ```
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `bits` | integer | Yes | Number of random bits. Minimum 128, and divisible by 8. Use 128 for a UUID-strength value. |
 
 **Returns**
 
@@ -34,14 +40,14 @@ local id = linkiir.sys.guid()
 
 **Errors**
 
-Raises a Lua error on failure.
+Raises a Lua error on failure, including when `bits` is missing, below 128, or not divisible by 8.
 
 Codes: `RUNTIME_ERROR`
 
 **Example**
 
 ```lua
-local Id = linkiir.sys.guid()
+local Id = linkiir.sys.guid(128)
 ```
 
 

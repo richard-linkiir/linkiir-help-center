@@ -48,6 +48,18 @@ About 20 minutes on a local machine.
   <span class="lnk-card__body">Node types and their fields, Lua scripting, sample interfaces, error handling.</span>
 </a>
 
+<a class="lnk-card lnk-card-link" href="/docs/adapters/">
+  <svg class="lnk-card__icon" viewBox="0 0 32 32" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13.5 3.5v6" />
+      <path d="M18.5 3.5v6" />
+      <path d="M9.5 9.5h13v5a6.5 6.5 0 0 1-6.5 6.5A6.5 6.5 0 0 1 9.5 14.5z" />
+      <path d="M16 21v7.5" />
+    </g>
+  </svg>
+  <span class="lnk-card__title">Adapters</span>
+  <span class="lnk-card__body">Prebuilt connectors for EHR, CRM, cloud storage, messaging, and AI systems.</span>
+</a>
 <a class="lnk-card lnk-card-link" href="/docs/administration/">
   <svg class="lnk-card__icon" viewBox="0 0 32 32" aria-hidden="true">
     <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -65,6 +77,18 @@ About 20 minutes on a local machine.
   <span class="lnk-card__body">Licensing, upgrades, deployment environments, configuration, backups, security, troubleshooting.</span>
 </a>
 
+<a class="lnk-card lnk-card-link" href="/docs/high-availability/">
+  <svg class="lnk-card__icon" viewBox="0 0 32 32" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="6" width="11" height="20" rx="2.5" />
+      <rect x="17.5" y="6" width="11" height="20" rx="2.5" />
+      <path d="M9 11v10" />
+      <path d="M23 11v10" />
+    </g>
+  </svg>
+  <span class="lnk-card__title">High Availability</span>
+  <span class="lnk-card__body">Active/standby pairs, topologies, system requirements, backup and disaster recovery.</span>
+</a>
 <a class="lnk-card lnk-card-link" href="/docs/faq/">
   <svg class="lnk-card__icon" viewBox="0 0 32 32" aria-hidden="true">
     <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -87,10 +111,12 @@ About 20 minutes on a local machine.
 | Install on macOS | [Install on macOS](administration/installation/macos.md) |
 | Recover a lost administrator password | [Reset the Admin User](getting-started/first-login.md) |
 | Receive HL7 v2 over MLLP | [Source Nodes](interface-development/interfaces/source-nodes.md) |
+| Connect to Epic, Cerner, Salesforce, S3, or Slack | [Adapters](adapters/index.md) |
 | Look up a Lua function | [Linkiir Scripting API](api/scripting-api/index.md) |
 | Test a script before starting a node | [Testing and Debugging Lua](interface-development/lua-programming/testing-debugging.md) |
 | Copy a complete working interface | [Sample Code](interface-development/sample-code/index.md) |
 | Connect my own Kafka cluster | [Kafka Configuration](administration/configurations/kafka-redpanda.md) |
+| Understand High Availability and pick a topology | [High Availability](high-availability/index.md) |
 | Find out why messages are not arriving | [Troubleshooting](administration/troubleshooting/index.md) |
 | Move a project between environments | [Project Import and Export](administration/deployment/import-export.md) |
 

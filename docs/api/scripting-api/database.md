@@ -91,8 +91,9 @@ local tbl = linkiir.store.tables{ name = 'patients' }
 local tbl = linkiir.store.tables{ name = 'patients' }
 tbl.first_name = 'John'
 tbl.last_name = 'Smith'
-Conn:execute{ sql = 'INSERT INTO patients (first_name, last_name) VALUES (?, ?)',
-              params = { tbl.first_name:value(), tbl.last_name:value() } }
+Conn:execute{ sql = 'insert into patients (first_name, last_name) values ('
+                    .. Conn:quote(tbl.first_name:value()) .. ', '
+                    .. Conn:quote(tbl.last_name:value()) .. ')' }
 ```
 
 
@@ -287,7 +288,7 @@ local driver = linkiir.store.MYSQL_ODBC
 *method of `Connection`*
 
 ```lua
-conn:query{ sql=, params=, live= }
+conn:query{ sql=, live= }
 ```
 
 SELECT; rows navigable as a node tree.
@@ -295,16 +296,19 @@ SELECT; rows navigable as a node tree.
 **Usage**
 
 ```lua
-local rows, err = conn:query{ sql=, params= }
+local rows, err = conn:query{ sql= }
 ```
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sql` | string | Yes | SQL query text; use $1, $2, … placeholders for params. |
-| `params` | table | No | Positional bind values for the query placeholders. |
+| `sql` | string | Yes | Complete SQL query text. |
 | `live` | boolean | No | Default true; false simulates (test mode). |
+
+:::caution Build the complete statement in the script
+`sql` reaches the database exactly as written, including any `$1`-style markers, which arrive as literal text. Compose the whole statement in the script, and pass every value that came from a message, a variable, or user input through [`Connection:quote`](#connectionquote) as you build it.
+:::
 
 **Returns**
 
@@ -313,8 +317,9 @@ local rows, err = conn:query{ sql=, params= }
 **Example**
 
 ```lua
-local Rows, Err = Conn:query{ sql = 'select id, name from patient where mrn = $1',
-                             params = { Mrn } }
+local Rows, Err = Conn:query{
+   sql = 'select id, name from patient where mrn = ' .. Conn:quote(Mrn),
+}
 if not Rows then error(Err.message) end
 for i = 1, #Rows do
    print(Rows[i].id:value(), Rows[i].name:value())
@@ -327,7 +332,7 @@ end
 *method of `Connection`*
 
 ```lua
-conn:execute{ sql=, params=, live= }
+conn:execute{ sql=, live= }
 ```
 
 INSERT/UPDATE/DELETE/DDL.
@@ -335,16 +340,19 @@ INSERT/UPDATE/DELETE/DDL.
 **Usage**
 
 ```lua
-local n, err = conn:execute{ sql=, params= }
+local n, err = conn:execute{ sql= }
 ```
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sql` | string | Yes | SQL statement text; use $1, $2, … placeholders for params. |
-| `params` | table | No | Positional bind values for the statement placeholders. |
+| `sql` | string | Yes | Complete SQL statement text. |
 | `live` | boolean | No | Default true; false simulates (test mode). |
+
+:::caution Build the complete statement in the script
+As with `conn:query`, `sql` reaches the database exactly as written, and `$1`-style markers arrive as literal text. Compose the whole statement in the script, and pass every value that came from a message, a variable, or user input through [`Connection:quote`](#connectionquote) as you build it.
+:::
 
 **Returns**
 
@@ -353,8 +361,9 @@ local n, err = conn:execute{ sql=, params= }
 **Example**
 
 ```lua
-local Affected, Err = Conn:execute{ sql = 'update patient set active = false where mrn = $1',
-                                    params = { Mrn } }
+local Affected, Err = Conn:execute{
+   sql = 'update patient set active = false where mrn = ' .. Conn:quote(Mrn),
+}
 if not Affected then error(Err.message) end
 ```
 
@@ -531,7 +540,9 @@ end
 conn:quote(s)
 ```
 
-Escaping fallback; prefer params.
+Escape a value for use in a statement.
+
+Escape a value so it can be included in the `sql` text passed to `conn:query` or `conn:execute`. Use it on every value that came from a message, a variable, or user input.
 
 **Usage**
 
@@ -552,7 +563,8 @@ local q = conn:quote(s)
 **Example**
 
 ```lua
-local Escaped = Conn:quote(UserInput)  -- prefer params= over this when possible
+local Sql = 'select id from patient where mrn = ' .. Conn:quote(Mrn)
+local Rows, Err = Conn:query{ sql = Sql }
 ```
 
 

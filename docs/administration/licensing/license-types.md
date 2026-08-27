@@ -42,9 +42,11 @@ Practical advice for an evaluation:
 
 ## High availability
 
-Licenses carry an optional feature flag for HA. It is not implemented in the product yet and the **License** tab does not display it.
+Running an active/standby pair needs an **Enterprise license with the HA feature**, issued for that pair. One license covers both servers. Once it is applied, **Settings → License** shows the type as **Enterprise** with **HA** among the licensed features.
 
-For continuity planning with what ships today, see [HA Deployment](../deployment/ha.md).
+An installation whose license does not include the feature runs normally as a single server — nothing degrades, and HA simply cannot be enabled. You can add it later without rebuilding your projects.
+
+See [HA Licensing](../../high-availability/licensing.md), and [High Availability](../../high-availability/index.md) for the design and topologies.
 
 ## Changing type or capacity
 
