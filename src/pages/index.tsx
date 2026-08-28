@@ -22,8 +22,16 @@ const QUICK_LINKS: QuickLink[] = [
     to: '/docs/interface-development/interfaces/source-nodes',
   },
   {
+    label: 'Connect to Epic, Cerner, Salesforce, S3, or Slack',
+    to: '/docs/adapters/',
+  },
+  {
     label: 'Look up a Lua function',
     to: '/docs/api/scripting-api',
+  },
+  {
+    label: 'Understand High Availability and pick a topology',
+    to: '/docs/high-availability/',
   },
   {
     label: 'Move a project between environments',

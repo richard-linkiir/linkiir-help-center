@@ -35,6 +35,17 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
+    title: 'Adapters',
+    to: '/docs/adapters/',
+    Svg: require('@site/static/img/feat-adapters.svg').default,
+    description: (
+      <>
+        Prebuilt connectors for EHR, CRM, cloud storage, messaging, and AI
+        systems. Configured with fields, not code.
+      </>
+    ),
+  },
+  {
     title: 'Administration',
     to: '/docs/administration/',
     Svg: require('@site/static/img/feat-administration.svg').default,
@@ -42,6 +53,17 @@ const FeatureList: FeatureItem[] = [
       <>
         Installation, licensing, upgrades, deployment environments,
         configuration, backups, security, and troubleshooting.
+      </>
+    ),
+  },
+  {
+    title: 'High Availability',
+    to: '/docs/high-availability/',
+    Svg: require('@site/static/img/feat-high-availability.svg').default,
+    description: (
+      <>
+        Active/standby pairs, the five supported topologies, system
+        requirements, and how HA differs from backup and disaster recovery.
       </>
     ),
   },
