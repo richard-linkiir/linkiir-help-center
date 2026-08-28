@@ -1,0 +1,8 @@
+{
+  "label": "Catalogs",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Distribute adapter nodes and libraries between grids: subscribe to a published catalog, keep nodes updated from it, and publish a catalog of your own."
+  }
+}

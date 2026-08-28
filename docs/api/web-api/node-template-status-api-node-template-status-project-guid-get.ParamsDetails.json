@@ -1,0 +1,1 @@
+{"parameters":[{"name":"project_guid","in":"path","required":true,"schema":{"type":"string","description":"GUID of the project.","title":"Project Guid"},"description":"GUID of the project."}]}

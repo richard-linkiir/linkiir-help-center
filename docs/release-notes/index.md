@@ -20,6 +20,7 @@ Linkiir Grid uses [semantic versioning](https://semver.org/) (`major.minor.patch
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [Unreleased](./unreleased.md) | — | Catalogs for adapter distribution, in-place adapter updates, Schema Editor merged into Scripting, queue retention setting |
 | [v1.0.0](./linkiir-grid-v1.0.0.md) | 2026-08-12 | Initial release — Dashboard, Runtime, Log Archiver, Notification, Licensing, and more |
 
 ---

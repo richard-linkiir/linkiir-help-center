@@ -91,7 +91,7 @@ That gives you an auto-generated baseline while building and full control once i
 
 ## Notes
 
-- Code sets are the `tables` section of the schema JSON, populated when you add them through the Schema Editor.
+- Code sets are the `tables` section of the schema JSON, populated when you add them through the Schema Editor — which opens on the Scripting page when you open a schema file.
 - A code set that exists in one schema and not the other is a mapping you have to write yourself; `match` can only join what both sides describe.
 - Print, or log, the codes you drop to a fallback. A silent default hides a feed that has started sending values you never mapped.
 

@@ -29,6 +29,26 @@
           ]
         },
         {
+          "kind": "field",
+          "name": "__node_dir",
+          "signature": "__node_dir",
+          "usage": "local nodeDir = linkiir.sys.nodeDir()",
+          "summary": "Deprecated. Filesystem path to the current node directory - use linkiir.sys.nodeDir().",
+          "description": "Deprecated: use linkiir.sys.nodeDir() instead. Filesystem path to the current node directory, set by the runtime before script execution. Still populated and not scheduled for removal, but linkiir.sys.nodeDir() is the documented form. Concatenating it onto a schema name is no longer needed either - a relative schema path already resolves against the node directory.",
+          "returns": [
+            {
+              "name": "string",
+              "description": "absolute path to the node directory."
+            }
+          ],
+          "examples": [
+            {
+              "language": "lua",
+              "code": "-- Deprecated form:\nlocal SchemaPath = __node_dir .. '/demo.json'\n\n-- Current form - relative schema paths resolve against the node directory:\nlocal Msg = linkiir.data.extract{ schema = 'demo.json', data = Data }"
+            }
+          ]
+        },
+        {
           "kind": "function",
           "name": "require",
           "signature": "require(modname)",
@@ -81,7 +101,7 @@
           "examples": [
             {
               "language": "lua",
-              "code": "print('processing', linkiir.sys.guid())"
+              "code": "print('processing', linkiir.sys.guid(128))"
             }
           ]
         },
@@ -1621,10 +1641,10 @@
         {
           "kind": "function",
           "name": "linkiir.link.web.get",
-          "signature": "linkiir.link.web.get{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
-          "usage": "linkiir.link.web.get{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
+          "signature": "linkiir.link.web.get{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
+          "usage": "linkiir.link.web.get{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
           "summary": "Perform an outbound HTTP GET request.",
-          "description": "Perform an outbound HTTP GET request.",
+          "description": "Perform an outbound HTTP GET request. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.",
           "params": [
             {
               "name": "url",
@@ -1663,6 +1683,12 @@
               "description": "Seconds."
             },
             {
+              "name": "tls",
+              "type": "table",
+              "required": false,
+              "description": "Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files - certificate or key material is never accepted inline, so a private key never enters script memory. PEM is the only accepted format, matching the Linkiir web server's Certificate File and Private Key File settings; convert a PKCS#12 bundle or an encrypted key once with openssl before use. certFile and keyFile must be supplied together. caFile pins the trust anchor for verifying the server and may be used with or without a client certificate; it does not disable verification, which stays with verifyTls. Relative paths resolve against the working directory and may not escape it; absolute paths are used unchanged. Each path must be a readable file or the call raises before any request is made."
+            },
+            {
               "name": "verifyTls",
               "type": "boolean",
               "required": false,
@@ -1689,6 +1715,8 @@
               "INVALID_URL",
               "TIMEOUT",
               "TLS_ERROR",
+              "TLS_CLIENT_CERT_ERROR",
+              "TLS_CA_ERROR",
               "CONNECT_FAILED",
               "HTTP_ERROR"
             ]
@@ -1697,16 +1725,20 @@
             {
               "language": "lua",
               "code": "local Resp, Err = linkiir.link.web.get{ url = 'https://fhir.example.com/Patient/123' }\nif not Resp then error(Err.message) end\nprint(Resp.code, Resp.body)"
+            },
+            {
+              "language": "lua",
+              "code": "-- mTLS applies to every verb, not just post: the tls sub-table is read on\n-- one shared request path. Here it is on a read, with a bearer token.\nlocal Resp, Err = linkiir.link.web.get{\n   url    = Cfg.pcc_api_base .. '/orgs/' .. Cfg.pcc_org_uuid .. '/patients',\n   params = { facId = Cfg.pcc_fac_id },\n   auth   = { type = 'bearer', token = Token },\n   tls    = { certFile = Cfg.pcc_cert_file,   -- 0644\n              keyFile  = Cfg.pcc_key_file },  -- 0600\n}\nif not Resp then error('transport failure: ' .. Err.code) end\nif Resp.code ~= 200 then error('lookup rejected: HTTP ' .. Resp.code) end"
             }
           ]
         },
         {
           "kind": "function",
           "name": "linkiir.link.web.post",
-          "signature": "linkiir.link.web.post{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
-          "usage": "linkiir.link.web.post{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
+          "signature": "linkiir.link.web.post{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
+          "usage": "linkiir.link.web.post{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
           "summary": "Perform an outbound HTTP POST request.",
-          "description": "Perform an outbound HTTP POST request, sending `body` as the request payload.",
+          "description": "Perform an outbound HTTP POST request, sending `body` as the request payload. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.",
           "params": [
             {
               "name": "url",
@@ -1745,6 +1777,12 @@
               "description": "Seconds."
             },
             {
+              "name": "tls",
+              "type": "table",
+              "required": false,
+              "description": "Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files - certificate or key material is never accepted inline, so a private key never enters script memory. PEM is the only accepted format, matching the Linkiir web server's Certificate File and Private Key File settings; convert a PKCS#12 bundle or an encrypted key once with openssl before use. certFile and keyFile must be supplied together. caFile pins the trust anchor for verifying the server and may be used with or without a client certificate; it does not disable verification, which stays with verifyTls. Relative paths resolve against the working directory and may not escape it; absolute paths are used unchanged. Each path must be a readable file or the call raises before any request is made."
+            },
+            {
               "name": "verifyTls",
               "type": "boolean",
               "required": false,
@@ -1771,6 +1809,8 @@
               "INVALID_URL",
               "TIMEOUT",
               "TLS_ERROR",
+              "TLS_CLIENT_CERT_ERROR",
+              "TLS_CA_ERROR",
               "CONNECT_FAILED",
               "HTTP_ERROR"
             ]
@@ -1779,16 +1819,20 @@
             {
               "language": "lua",
               "code": "local Resp, Err = linkiir.link.web.post{\n   url     = 'https://fhir.example.com/Patient',\n   headers = { ['Content-Type'] = 'application/fhir+json' },\n   body    = linkiir.data.serialize{ data = Out },\n   auth    = { type = 'bearer', token = Token },\n}\nif not Resp then error(Err.message) end\nprint(Resp.code, Resp.body)"
+            },
+            {
+              "language": "lua",
+              "code": "-- Two-legged OAuth over mTLS: HTTP Basic *and* a client certificate on\n-- the same request, then a bearer token plus the same certificate.\n-- Recommended permissions: certificate 0644, private key 0600, both\n-- outside any project directory so they never enter a project repository.\nlocal Cfg = linkiir.config.node()\nlocal Tls = { certFile = Cfg.pcc_cert_file,   -- certs/pcc-client.pem\n              keyFile  = Cfg.pcc_key_file }   -- certs/pcc-client.key\n\nlocal Resp, Err = linkiir.link.web.post{\n   url     = Cfg.pcc_token_url,\n   auth    = { type = 'basic', user = Cfg.pcc_client_id,\n               password = Cfg.pcc_client_secret },\n   headers = { ['Content-Type'] = 'application/x-www-form-urlencoded' },\n   body    = 'grant_type=client_credentials',\n   timeout = 20,\n   tls     = Tls,\n}\nif not Resp then error('token transport failure: ' .. Err.code) end\nlocal Token = linkiir.json.parse(Resp.body).access_token\n\nlocal Obs = linkiir.link.web.post{\n   url     = Cfg.pcc_api_base .. '/observations',\n   auth    = { type = 'bearer', token = Token },\n   headers = { ['Content-Type'] = 'application/json' },\n   body    = linkiir.json.serialize(Payload),\n   tls     = Tls,\n}\nif not Obs then error('api transport failure: ' .. Err.code) end"
             }
           ]
         },
         {
           "kind": "function",
           "name": "linkiir.link.web.put",
-          "signature": "linkiir.link.web.put{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
-          "usage": "linkiir.link.web.put{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
+          "signature": "linkiir.link.web.put{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
+          "usage": "linkiir.link.web.put{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
           "summary": "Perform an outbound HTTP PUT request.",
-          "description": "Perform an outbound HTTP PUT request, sending `body` as the request payload.",
+          "description": "Perform an outbound HTTP PUT request, sending `body` as the request payload. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.",
           "params": [
             {
               "name": "url",
@@ -1827,6 +1871,12 @@
               "description": "Seconds."
             },
             {
+              "name": "tls",
+              "type": "table",
+              "required": false,
+              "description": "Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files - certificate or key material is never accepted inline, so a private key never enters script memory. PEM is the only accepted format, matching the Linkiir web server's Certificate File and Private Key File settings; convert a PKCS#12 bundle or an encrypted key once with openssl before use. certFile and keyFile must be supplied together. caFile pins the trust anchor for verifying the server and may be used with or without a client certificate; it does not disable verification, which stays with verifyTls. Relative paths resolve against the working directory and may not escape it; absolute paths are used unchanged. Each path must be a readable file or the call raises before any request is made."
+            },
+            {
               "name": "verifyTls",
               "type": "boolean",
               "required": false,
@@ -1853,6 +1903,8 @@
               "INVALID_URL",
               "TIMEOUT",
               "TLS_ERROR",
+              "TLS_CLIENT_CERT_ERROR",
+              "TLS_CA_ERROR",
               "CONNECT_FAILED",
               "HTTP_ERROR"
             ]
@@ -1867,10 +1919,10 @@
         {
           "kind": "function",
           "name": "linkiir.link.web.patch",
-          "signature": "linkiir.link.web.patch{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
-          "usage": "linkiir.link.web.patch{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
+          "signature": "linkiir.link.web.patch{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
+          "usage": "linkiir.link.web.patch{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
           "summary": "Perform an outbound HTTP PATCH request.",
-          "description": "Perform an outbound HTTP PATCH request, sending `body` as the request payload.",
+          "description": "Perform an outbound HTTP PATCH request, sending `body` as the request payload. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.",
           "params": [
             {
               "name": "url",
@@ -1909,6 +1961,12 @@
               "description": "Seconds."
             },
             {
+              "name": "tls",
+              "type": "table",
+              "required": false,
+              "description": "Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files - certificate or key material is never accepted inline, so a private key never enters script memory. PEM is the only accepted format, matching the Linkiir web server's Certificate File and Private Key File settings; convert a PKCS#12 bundle or an encrypted key once with openssl before use. certFile and keyFile must be supplied together. caFile pins the trust anchor for verifying the server and may be used with or without a client certificate; it does not disable verification, which stays with verifyTls. Relative paths resolve against the working directory and may not escape it; absolute paths are used unchanged. Each path must be a readable file or the call raises before any request is made."
+            },
+            {
               "name": "verifyTls",
               "type": "boolean",
               "required": false,
@@ -1935,6 +1993,8 @@
               "INVALID_URL",
               "TIMEOUT",
               "TLS_ERROR",
+              "TLS_CLIENT_CERT_ERROR",
+              "TLS_CA_ERROR",
               "CONNECT_FAILED",
               "HTTP_ERROR"
             ]
@@ -1949,10 +2009,10 @@
         {
           "kind": "function",
           "name": "linkiir.link.web.delete",
-          "signature": "linkiir.link.web.delete{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
-          "usage": "linkiir.link.web.delete{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
+          "signature": "linkiir.link.web.delete{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
+          "usage": "linkiir.link.web.delete{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
           "summary": "Perform an outbound HTTP DELETE request.",
-          "description": "Perform an outbound HTTP DELETE request.",
+          "description": "Perform an outbound HTTP DELETE request. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.",
           "params": [
             {
               "name": "url",
@@ -1991,6 +2051,12 @@
               "description": "Seconds."
             },
             {
+              "name": "tls",
+              "type": "table",
+              "required": false,
+              "description": "Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files - certificate or key material is never accepted inline, so a private key never enters script memory. PEM is the only accepted format, matching the Linkiir web server's Certificate File and Private Key File settings; convert a PKCS#12 bundle or an encrypted key once with openssl before use. certFile and keyFile must be supplied together. caFile pins the trust anchor for verifying the server and may be used with or without a client certificate; it does not disable verification, which stays with verifyTls. Relative paths resolve against the working directory and may not escape it; absolute paths are used unchanged. Each path must be a readable file or the call raises before any request is made."
+            },
+            {
               "name": "verifyTls",
               "type": "boolean",
               "required": false,
@@ -2017,6 +2083,8 @@
               "INVALID_URL",
               "TIMEOUT",
               "TLS_ERROR",
+              "TLS_CLIENT_CERT_ERROR",
+              "TLS_CA_ERROR",
               "CONNECT_FAILED",
               "HTTP_ERROR"
             ]
@@ -2031,10 +2099,10 @@
         {
           "kind": "function",
           "name": "linkiir.link.web.head",
-          "signature": "linkiir.link.web.head{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
-          "usage": "linkiir.link.web.head{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
+          "signature": "linkiir.link.web.head{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
+          "usage": "linkiir.link.web.head{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
           "summary": "Perform an outbound HTTP HEAD request.",
-          "description": "Perform an outbound HTTP HEAD request; the response has no body.",
+          "description": "Perform an outbound HTTP HEAD request; the response has no body. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.",
           "params": [
             {
               "name": "url",
@@ -2073,6 +2141,12 @@
               "description": "Seconds."
             },
             {
+              "name": "tls",
+              "type": "table",
+              "required": false,
+              "description": "Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files - certificate or key material is never accepted inline, so a private key never enters script memory. PEM is the only accepted format, matching the Linkiir web server's Certificate File and Private Key File settings; convert a PKCS#12 bundle or an encrypted key once with openssl before use. certFile and keyFile must be supplied together. caFile pins the trust anchor for verifying the server and may be used with or without a client certificate; it does not disable verification, which stays with verifyTls. Relative paths resolve against the working directory and may not escape it; absolute paths are used unchanged. Each path must be a readable file or the call raises before any request is made."
+            },
+            {
               "name": "verifyTls",
               "type": "boolean",
               "required": false,
@@ -2099,6 +2173,8 @@
               "INVALID_URL",
               "TIMEOUT",
               "TLS_ERROR",
+              "TLS_CLIENT_CERT_ERROR",
+              "TLS_CA_ERROR",
               "CONNECT_FAILED",
               "HTTP_ERROR"
             ]
@@ -2113,10 +2189,10 @@
         {
           "kind": "function",
           "name": "linkiir.link.web.options",
-          "signature": "linkiir.link.web.options{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
-          "usage": "linkiir.link.web.options{ url=, headers=, params=, body=, auth=, timeout=, verifyTls=, live= }",
+          "signature": "linkiir.link.web.options{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
+          "usage": "linkiir.link.web.options{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }",
           "summary": "Perform an outbound HTTP OPTIONS request.",
-          "description": "Perform an outbound HTTP OPTIONS request.",
+          "description": "Perform an outbound HTTP OPTIONS request. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.",
           "params": [
             {
               "name": "url",
@@ -2155,6 +2231,12 @@
               "description": "Seconds."
             },
             {
+              "name": "tls",
+              "type": "table",
+              "required": false,
+              "description": "Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files - certificate or key material is never accepted inline, so a private key never enters script memory. PEM is the only accepted format, matching the Linkiir web server's Certificate File and Private Key File settings; convert a PKCS#12 bundle or an encrypted key once with openssl before use. certFile and keyFile must be supplied together. caFile pins the trust anchor for verifying the server and may be used with or without a client certificate; it does not disable verification, which stays with verifyTls. Relative paths resolve against the working directory and may not escape it; absolute paths are used unchanged. Each path must be a readable file or the call raises before any request is made."
+            },
+            {
               "name": "verifyTls",
               "type": "boolean",
               "required": false,
@@ -2181,6 +2263,8 @@
               "INVALID_URL",
               "TIMEOUT",
               "TLS_ERROR",
+              "TLS_CLIENT_CERT_ERROR",
+              "TLS_CA_ERROR",
               "CONNECT_FAILED",
               "HTTP_ERROR"
             ]
@@ -2857,7 +2941,7 @@
           "examples": [
             {
               "language": "lua",
-              "code": "local tbl = linkiir.store.tables{ name = 'patients' }\ntbl.first_name = 'John'\ntbl.last_name = 'Smith'\nConn:execute{ sql = 'INSERT INTO patients (first_name, last_name) VALUES (?, ?)',\n              params = { tbl.first_name:value(), tbl.last_name:value() } }"
+              "code": "local tbl = linkiir.store.tables{ name = 'patients' }\ntbl.first_name = 'John'\ntbl.last_name = 'Smith'\nConn:execute{ sql = 'insert into patients (first_name, last_name) values ('\n                    .. Conn:quote(tbl.first_name:value()) .. ', '\n                    .. Conn:quote(tbl.last_name:value()) .. ')' }"
             }
           ]
         },
@@ -2977,27 +3061,21 @@
           "kind": "method",
           "of": "Connection",
           "name": "Connection:query",
-          "signature": "conn:query{ sql=, params=, live= }",
+          "signature": "conn:query{ sql=, live= }",
           "summary": "SELECT; rows navigable as a node tree.",
-          "description": "SELECT; rows navigable as a node tree.",
+          "description": "SELECT; rows navigable as a node tree. A params binding table is NOT supported: it is silently ignored, and $1 style placeholders are sent to the database verbatim. Interpolate values with conn:quote(), which escapes and quotes them for the driver in use.",
           "returns": [
             {
               "description": "result node tree, err"
             }
           ],
-          "usage": "local rows, err = conn:query{ sql=, params= }",
+          "usage": "local rows, err = conn:query{ sql= }",
           "params": [
             {
               "name": "sql",
               "type": "string",
               "required": true,
-              "description": "SQL query text; use $1, $2, … placeholders for params."
-            },
-            {
-              "name": "params",
-              "type": "table",
-              "required": false,
-              "description": "Positional bind values for the query placeholders."
+              "description": "SQL query text. Values must already be interpolated, using conn:quote() to escape them."
             },
             {
               "name": "live",
@@ -3009,7 +3087,7 @@
           "examples": [
             {
               "language": "lua",
-              "code": "local Rows, Err = Conn:query{ sql = 'select id, name from patient where mrn = $1',\n                             params = { Mrn } }\nif not Rows then error(Err.message) end\nfor i = 1, #Rows do\n   print(Rows[i].id:value(), Rows[i].name:value())\nend"
+              "code": "local Mrn = Conn:quote(Value)\nlocal Rows, Err = Conn:query{ sql = 'select id, name from patient where mrn = ' .. Mrn }\nif not Rows then error(Err.message) end\nfor i = 1, #Rows do\n   print(Rows[i].id:value(), Rows[i].name:value())\nend"
             }
           ]
         },
@@ -3017,27 +3095,21 @@
           "kind": "method",
           "of": "Connection",
           "name": "Connection:execute",
-          "signature": "conn:execute{ sql=, params=, live= }",
+          "signature": "conn:execute{ sql=, live= }",
           "summary": "INSERT/UPDATE/DELETE/DDL.",
-          "description": "INSERT/UPDATE/DELETE/DDL.",
+          "description": "INSERT/UPDATE/DELETE/DDL. A params binding table is NOT supported: it is silently ignored, and $1 style placeholders are sent to the database verbatim. Interpolate values with conn:quote(), which escapes and quotes them for the driver in use.",
           "returns": [
             {
               "description": "affected count, err"
             }
           ],
-          "usage": "local n, err = conn:execute{ sql=, params= }",
+          "usage": "local n, err = conn:execute{ sql= }",
           "params": [
             {
               "name": "sql",
               "type": "string",
               "required": true,
-              "description": "SQL statement text; use $1, $2, … placeholders for params."
-            },
-            {
-              "name": "params",
-              "type": "table",
-              "required": false,
-              "description": "Positional bind values for the statement placeholders."
+              "description": "SQL statement text. Values must already be interpolated, using conn:quote() to escape them."
             },
             {
               "name": "live",
@@ -3049,7 +3121,7 @@
           "examples": [
             {
               "language": "lua",
-              "code": "local Affected, Err = Conn:execute{ sql = 'update patient set active = false where mrn = $1',\n                                    params = { Mrn } }\nif not Affected then error(Err.message) end"
+              "code": "local Mrn = Conn:quote(Value)\nlocal Affected, Err = Conn:execute{ sql = 'update patient set active = 0 where mrn = ' .. Mrn }\nif not Affected then error(Err.message) end"
             }
           ]
         },
@@ -3196,8 +3268,8 @@
           "of": "Connection",
           "name": "Connection:quote",
           "signature": "conn:quote(s)",
-          "summary": "Escaping fallback; prefer params.",
-          "description": "Escaping fallback; prefer params.",
+          "summary": "Escape a value for use in a statement.",
+          "description": "Escape a value so it can be included in the `sql` text passed to conn:query or conn:execute. Use it on every value that came from a message, a variable, or user input.",
           "returns": [
             {
               "description": "string"
@@ -3215,7 +3287,7 @@
           "examples": [
             {
               "language": "lua",
-              "code": "local Escaped = Conn:quote(UserInput)  -- prefer params= over this when possible"
+              "code": "local Sql = 'select id from patient where mrn = ' .. Conn:quote(Mrn)\nlocal Rows, Err = Conn:query{ sql = Sql }"
             }
           ]
         },
@@ -4608,10 +4680,10 @@
         {
           "kind": "function",
           "name": "linkiir.sys.guid",
-          "signature": "linkiir.sys.guid()",
-          "usage": "local id = linkiir.sys.guid()",
-          "summary": "Generate a random UUID.",
-          "description": "Generate a random UUID v4.",
+          "signature": "linkiir.sys.guid(bits)",
+          "usage": "local id = linkiir.sys.guid(128)",
+          "summary": "Generate a random GUID of the requested bit length.",
+          "description": "Generate a random GUID. The bit count is required: it must be at least 128 and divisible by 8. Calling guid() with no argument, or with fewer than 128 bits, raises a Lua error.",
           "returns": [
             {
               "description": "GUID string."
@@ -4626,7 +4698,15 @@
           "examples": [
             {
               "language": "lua",
-              "code": "local Id = linkiir.sys.guid()"
+              "code": "local Id  = linkiir.sys.guid(128)   -- 128-bit GUID\nlocal Big = linkiir.sys.guid(256)   -- 256 bits when more entropy is wanted\n-- linkiir.sys.guid()   -- error: bits is required\n-- linkiir.sys.guid(32) -- error: must be at least 128 bits"
+            }
+          ],
+          "params": [
+            {
+              "name": "bits",
+              "type": "integer",
+              "required": true,
+              "description": "Length in bits. Minimum 128, must be divisible by 8."
             }
           ]
         },
@@ -4692,7 +4772,7 @@
           "signature": "linkiir.sys.nodeDir()",
           "usage": "local nd = linkiir.sys.nodeDir()",
           "summary": "Absolute path of the executing node's directory.",
-          "description": "Absolute path of the directory the executing node's files were loaded from. Under the live Runtime this is the staged run folder; under Run Test and Debug it is your dev clone. A relative schema path already resolves against this directory, so concatenation is not needed.",
+          "description": "Absolute path of the directory the executing node's files were loaded from. Under the live Runtime this is the staged run folder; under Run Test and Debug it is your dev clone. Replaces the deprecated __node_dir global. A relative schema path already resolves against this directory, so concatenation is not needed.",
           "returns": [
             {
               "name": "string",

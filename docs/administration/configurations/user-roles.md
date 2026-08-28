@@ -111,6 +111,7 @@ Instance-wide settings. Nothing here grants access to projects, logs, or the Bui
 | **Notification settings** | Alert rules, email transport, and notification channels |
 | **Manage archivers** | Add, remove, start, and stop log archiver instances |
 | **Manage license** | Apply, release, and remove the instance license |
+| **Manage catalogs** | Subscribe to, update, and publish catalogs of adapter nodes and libraries |
 
 ---
 

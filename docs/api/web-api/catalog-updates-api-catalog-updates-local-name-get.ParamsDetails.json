@@ -1,0 +1,1 @@
+{"parameters":[{"name":"local_name","in":"path","required":true,"schema":{"type":"string","description":"Local name of the catalog.","title":"Local Name"},"description":"Local name of the catalog."}]}

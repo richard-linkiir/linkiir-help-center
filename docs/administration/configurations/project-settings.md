@@ -15,7 +15,7 @@ Each card on the **Projects** page carries the project's name and description, a
 | To | Do |
 | --- | --- |
 | Open the project's settings | Click the card |
-| Open the Builder or Monitor | Right-click the card, choose **Open in Builder** or **Open in Monitor** |
+| Open the Builder or Monitor | Right-click the card, choose **Open in Builder** or **Open in Monitor**. The Monitor opens filtered to this project. |
 | Rename or re-describe it | Right-click the card, choose **Edit project** |
 | Delete it | Right-click the card, choose **Delete project**, then type the project's name to confirm |
 | Reorder the cards | Drag a card by the grip handle in its top-right corner |
@@ -58,7 +58,7 @@ Per-row actions:
 | Action | Does |
 | --- | --- |
 | **Open in Builder** (hammer icon) | Opens the Workflow Builder to lay out and configure nodes |
-| **Open in Monitor** (activity icon) | Opens live monitoring for that workflow |
+| **Open in Monitor** (activity icon) | Opens the Monitor filtered to this project, with the workflow's name in the search box |
 | **Start** / **Stop** | Starts or stops every node in the workflow |
 
 Header actions: **Add Workflow**, **Start All** / **Stop All**, and a sort button that cycles the order rows are listed in.
@@ -123,9 +123,15 @@ A template captures a configured node so the next one like it starts from the sa
 
 **Creating one:** configure a node in the Workflow Builder, then use **Create template** on it. It is saved to the project and appears in the palette alongside the built-in node types.
 
-**Copying from another project:** click **Import from Project**, pick a **Source Project**, tick the templates you want, and click **Import Selected**. This only reaches projects on the same installation. To move templates between installations, move the whole project — see [Import and Export](../deployment/import-export.md).
+The whole node is captured — every script it has and the library versions it pins, not just its entry-point script. A node built from an adapter carries several modules and a library dependency, and a template holding only one file could not run.
 
-Template names must be unique within a project for a given node type. Importing one whose name is already taken is refused; rename the existing template first.
+**Sample messages** are the one part you choose, and they are left out by default. Every other file in a node is something an author wrote; a sample is a message captured to test against, which on a live grid is real traffic. Turn **Sample Messages** on only when the samples are safe to travel — a template can be reused by a colleague, copied into another project, or promoted into a catalog and shipped to customers.
+
+Files that came from a pinned library are deliberately not copied. Those belong to the pin, and are restored from the version the template names — carrying frozen copies would mean a template that kept shipping a library's old code after its pin had moved on.
+
+**Replacing one:** saving a template whose name is already taken for that node type replaces it outright rather than merging. The dialog says so before you confirm, because names collide once punctuation and case are stripped — "My Adapter" lands on "my adapter" without your having aimed at it. Nodes already built from the old template keep their own copies and are unaffected.
+
+**Copying from another project:** click **Import from Project**, pick a **Source Project**, tick the templates you want, and click **Import Selected**. Any libraries the templates pin that this project does not already have come across with them. This only reaches projects on the same installation. To move templates between installations, move the whole project — see [Import and Export](../deployment/import-export.md) — or publish them in a [catalog](../../catalogs/index.md).
 
 Right-click a template row for **Edit template** and **Delete template**. Both need the **Manage node templates** permission.
 
@@ -145,7 +151,11 @@ Create, edit, publish, and link libraries from the **Libraries** picker on the S
 
 Use a library rather than the project's `common` directory when you want versioning: a node pins a published version, so changing the library does not silently change every node that uses it.
 
-Libraries travel inside a project export.
+Libraries travel inside a project export. Importing a project also carries the library versions its nodes pin, so those nodes arrive able to resolve their dependencies.
+
+**Published versions are immutable.** Publishing checks the project hub rather than only your own clone, so two collaborators cannot each publish a different `2.0.0`. Publishing propagates to other collaborators' clones straight away, so their version pickers and update indicators reflect it without waiting for a pull.
+
+Libraries can also be installed from a subscribed catalog, and a catalog library upgrade is offered to every project that has it installed. See [Using catalog content](../../catalogs/using-catalog-content.md).
 
 ---
 

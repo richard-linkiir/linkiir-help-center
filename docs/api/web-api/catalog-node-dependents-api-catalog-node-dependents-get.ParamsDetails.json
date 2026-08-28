@@ -1,0 +1,1 @@
+{"parameters":[{"name":"catalog","in":"query","required":true,"schema":{"type":"string","title":"Catalog"}}]}

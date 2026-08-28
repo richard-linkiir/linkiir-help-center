@@ -13,10 +13,12 @@ You configure credentials, endpoints, and what to fetch or send. The connection 
 ## Requesting the Adapters package
 
 :::info
-Adapters are supplied separately from the Linkiir installation. To request them for your environment, email [support@linkiir.com](mailto:support@linkiir.com) with your Linkiir version, your platform, and the systems you need to connect to. Support sends a project you import, with the templates and libraries already attached to the nodes that use them. See [Project Import and Export](../administration/deployment/import-export.md).
+Adapters are supplied separately from the Linkiir installation. To request them for your environment, email [support@linkiir.com](mailto:support@linkiir.com) with your Linkiir version, your platform, and the systems you need to connect to.
+
+You receive either a **catalog** to subscribe to, which keeps its adapters updatable in place afterwards, or a **project** to import with the templates and libraries already attached to the nodes that use them. See [Catalogs](../catalogs/index.md) and [Project Import and Export](../administration/deployment/import-export.md).
 :::
 
-## The catalog
+## Available adapters
 
 <div class="lnk-grid">
 <a class="lnk-card lnk-card-link" href="/docs/adapters/epic">

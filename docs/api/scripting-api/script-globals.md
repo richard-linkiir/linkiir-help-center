@@ -40,6 +40,39 @@ print(#Raw)
 ```
 
 
+## `__node_dir`
+
+*field*
+
+```lua
+__node_dir
+```
+
+Deprecated. Filesystem path to the current node directory - use linkiir.sys.nodeDir().
+
+Deprecated: use linkiir.sys.nodeDir() instead. Filesystem path to the current node directory, set by the runtime before script execution. Still populated and not scheduled for removal, but linkiir.sys.nodeDir() is the documented form. Concatenating it onto a schema name is no longer needed either - a relative schema path already resolves against the node directory.
+
+**Usage**
+
+```lua
+local nodeDir = linkiir.sys.nodeDir()
+```
+
+**Returns**
+
+- `string` — absolute path to the node directory.
+
+**Example**
+
+```lua
+-- Deprecated form:
+local SchemaPath = __node_dir .. '/demo.json'
+
+-- Current form - relative schema paths resolve against the node directory:
+local Msg = linkiir.data.extract{ schema = 'demo.json', data = Data }
+```
+
+
 ## `require`
 
 *function*

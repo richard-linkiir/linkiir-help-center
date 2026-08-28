@@ -8,6 +8,7 @@ title: Connectivity
 
 All connectivity to external systems, named for the heart of Linkiir. Sub-areas: web (HTTP), socket (TCP), mail (SMTP), file (FTP/FTPS/SFTP). All calls return result, err.
 
+
 Every outbound HTTP call can present a client certificate, for destinations that require mutual TLS. See [Client certificates (mutual TLS)](#client-certificates-mutual-tls).
 
 ---
@@ -122,15 +123,15 @@ print(Resp.code, Resp.body)
 *function*
 
 ```lua
-linkiir.link.web.get{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.get{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
-Perform an outbound HTTP GET request.
+Perform an outbound HTTP GET request. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.
 
 **Usage**
 
 ```lua
-linkiir.link.web.get{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.get{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 **Parameters**
@@ -142,8 +143,8 @@ linkiir.link.web.get{ url=, headers=, params=, body=, auth=, tls=, timeout=, ver
 | `params` | table | No | Query-string parameters. |
 | `body` | string | No | Request body (POST/PUT/PATCH). |
 | `auth` | table | No | `{ type='basic'\|'bearer', user=, password=, token= }.` |
-| `tls` | table | No | Client certificate for a mutual-TLS destination: `{ certFile=, keyFile=, caFile= }`. See [Client certificates (mutual TLS)](#client-certificates-mutual-tls). |
 | `timeout` | integer | No | Seconds. |
+| `tls` | table | No | `Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files - certificate or key material is never accepted inline, so a private key never enters script memory. PEM is the only accepted format, matching the Linkiir web server's Certificate File and Private Key File settings; convert a PKCS#12 bundle or an encrypted key once with openssl before use. certFile and keyFile must be supplied together. caFile pins the trust anchor for verifying the server and may be used with or without a client certificate; it does not disable verification, which stays with verifyTls. Relative paths resolve against the working directory and may not escape it; absolute paths are used unchanged. Each path must be a readable file or the call raises before any request is made.` |
 | `verifyTls` | boolean | No | Default true. |
 | `live` | boolean | No | Default true. |
 
@@ -166,17 +167,18 @@ if not Resp then error(Err.message) end
 print(Resp.code, Resp.body)
 ```
 
-Reading from a destination that requires a client certificate:
-
 ```lua
+-- mTLS applies to every verb, not just post: the tls sub-table is read on
+-- one shared request path. Here it is on a read, with a bearer token.
 local Resp, Err = linkiir.link.web.get{
-   url = 'https://api.example.com/v1/patients/123',
-   tls = { certFile = 'certs/partner-client.pem',
-           keyFile  = 'certs/partner-client.key',
-           caFile   = 'certs/partner-ca.pem' },
+   url    = Cfg.pcc_api_base .. '/orgs/' .. Cfg.pcc_org_uuid .. '/patients',
+   params = { facId = Cfg.pcc_fac_id },
+   auth   = { type = 'bearer', token = Token },
+   tls    = { certFile = Cfg.pcc_cert_file,   -- 0644
+              keyFile  = Cfg.pcc_key_file },  -- 0600
 }
-if not Resp then error(Err.message) end
-print(Resp.code, Resp.body)
+if not Resp then error('transport failure: ' .. Err.code) end
+if Resp.code ~= 200 then error('lookup rejected: HTTP ' .. Resp.code) end
 ```
 
 
@@ -185,17 +187,17 @@ print(Resp.code, Resp.body)
 *function*
 
 ```lua
-linkiir.link.web.post{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.post{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 Perform an outbound HTTP POST request.
 
-Perform an outbound HTTP POST request, sending `body` as the request payload.
+Perform an outbound HTTP POST request, sending `body` as the request payload. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.
 
 **Usage**
 
 ```lua
-linkiir.link.web.post{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.post{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 **Parameters**
@@ -207,8 +209,8 @@ linkiir.link.web.post{ url=, headers=, params=, body=, auth=, tls=, timeout=, ve
 | `params` | table | No | Query-string parameters. |
 | `body` | string | No | Request body (POST/PUT/PATCH). |
 | `auth` | table | No | `{ type='basic'\|'bearer', user=, password=, token= }.` |
-| `tls` | table | No | Client certificate for a mutual-TLS destination: `{ certFile=, keyFile=, caFile= }`. See [Client certificates (mutual TLS)](#client-certificates-mutual-tls). |
 | `timeout` | integer | No | Seconds. |
+| `tls` | table | No | `Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files.` |
 | `verifyTls` | boolean | No | Default true. |
 | `live` | boolean | No | Default true. |
 
@@ -236,23 +238,54 @@ if not Resp then error(Err.message) end
 print(Resp.code, Resp.body)
 ```
 
+```lua
+-- Two-legged OAuth over mTLS: HTTP Basic *and* a client certificate on
+-- the same request, then a bearer token plus the same certificate.
+-- Recommended permissions: certificate 0644, private key 0600, both
+-- outside any project directory so they never enter a project repository.
+local Cfg = linkiir.config.node()
+local Tls = { certFile = Cfg.pcc_cert_file,   -- certs/pcc-client.pem
+              keyFile  = Cfg.pcc_key_file }   -- certs/pcc-client.key
+
+local Resp, Err = linkiir.link.web.post{
+   url     = Cfg.pcc_token_url,
+   auth    = { type = 'basic', user = Cfg.pcc_client_id,
+               password = Cfg.pcc_client_secret },
+   headers = { ['Content-Type'] = 'application/x-www-form-urlencoded' },
+   body    = 'grant_type=client_credentials',
+   timeout = 20,
+   tls     = Tls,
+}
+if not Resp then error('token transport failure: ' .. Err.code) end
+local Token = linkiir.json.parse(Resp.body).access_token
+
+local Obs = linkiir.link.web.post{
+   url     = Cfg.pcc_api_base .. '/observations',
+   auth    = { type = 'bearer', token = Token },
+   headers = { ['Content-Type'] = 'application/json' },
+   body    = linkiir.json.serialize(Payload),
+   tls     = Tls,
+}
+if not Obs then error('api transport failure: ' .. Err.code) end
+```
+
 
 ## `linkiir.link.web.put`
 
 *function*
 
 ```lua
-linkiir.link.web.put{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.put{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 Perform an outbound HTTP PUT request.
 
-Perform an outbound HTTP PUT request, sending `body` as the request payload.
+Perform an outbound HTTP PUT request, sending `body` as the request payload. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.
 
 **Usage**
 
 ```lua
-linkiir.link.web.put{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.put{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 **Parameters**
@@ -264,8 +297,8 @@ linkiir.link.web.put{ url=, headers=, params=, body=, auth=, tls=, timeout=, ver
 | `params` | table | No | Query-string parameters. |
 | `body` | string | No | Request body (POST/PUT/PATCH). |
 | `auth` | table | No | `{ type='basic'\|'bearer', user=, password=, token= }.` |
-| `tls` | table | No | Client certificate for a mutual-TLS destination: `{ certFile=, keyFile=, caFile= }`. See [Client certificates (mutual TLS)](#client-certificates-mutual-tls). |
 | `timeout` | integer | No | Seconds. |
+| `tls` | table | No | `Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files.` |
 | `verifyTls` | boolean | No | Default true. |
 | `live` | boolean | No | Default true. |
 
@@ -296,17 +329,17 @@ if not Resp then error(Err.message) end
 *function*
 
 ```lua
-linkiir.link.web.patch{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.patch{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 Perform an outbound HTTP PATCH request.
 
-Perform an outbound HTTP PATCH request, sending `body` as the request payload.
+Perform an outbound HTTP PATCH request, sending `body` as the request payload. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.
 
 **Usage**
 
 ```lua
-linkiir.link.web.patch{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.patch{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 **Parameters**
@@ -318,8 +351,8 @@ linkiir.link.web.patch{ url=, headers=, params=, body=, auth=, tls=, timeout=, v
 | `params` | table | No | Query-string parameters. |
 | `body` | string | No | Request body (POST/PUT/PATCH). |
 | `auth` | table | No | `{ type='basic'\|'bearer', user=, password=, token= }.` |
-| `tls` | table | No | Client certificate for a mutual-TLS destination: `{ certFile=, keyFile=, caFile= }`. See [Client certificates (mutual TLS)](#client-certificates-mutual-tls). |
 | `timeout` | integer | No | Seconds. |
+| `tls` | table | No | `Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files.` |
 | `verifyTls` | boolean | No | Default true. |
 | `live` | boolean | No | Default true. |
 
@@ -350,15 +383,15 @@ if not Resp then error(Err.message) end
 *function*
 
 ```lua
-linkiir.link.web.delete{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.delete{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
-Perform an outbound HTTP DELETE request.
+Perform an outbound HTTP DELETE request. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.
 
 **Usage**
 
 ```lua
-linkiir.link.web.delete{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.delete{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 **Parameters**
@@ -370,8 +403,8 @@ linkiir.link.web.delete{ url=, headers=, params=, body=, auth=, tls=, timeout=, 
 | `params` | table | No | Query-string parameters. |
 | `body` | string | No | Request body (POST/PUT/PATCH). |
 | `auth` | table | No | `{ type='basic'\|'bearer', user=, password=, token= }.` |
-| `tls` | table | No | Client certificate for a mutual-TLS destination: `{ certFile=, keyFile=, caFile= }`. See [Client certificates (mutual TLS)](#client-certificates-mutual-tls). |
 | `timeout` | integer | No | Seconds. |
+| `tls` | table | No | `Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files.` |
 | `verifyTls` | boolean | No | Default true. |
 | `live` | boolean | No | Default true. |
 
@@ -399,17 +432,17 @@ if not Resp then error(Err.message) end
 *function*
 
 ```lua
-linkiir.link.web.head{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.head{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 Perform an outbound HTTP HEAD request.
 
-Perform an outbound HTTP HEAD request; the response has no body.
+Perform an outbound HTTP HEAD request; the response has no body. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.
 
 **Usage**
 
 ```lua
-linkiir.link.web.head{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.head{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 **Parameters**
@@ -421,8 +454,8 @@ linkiir.link.web.head{ url=, headers=, params=, body=, auth=, tls=, timeout=, ve
 | `params` | table | No | Query-string parameters. |
 | `body` | string | No | Request body (POST/PUT/PATCH). |
 | `auth` | table | No | `{ type='basic'\|'bearer', user=, password=, token= }.` |
-| `tls` | table | No | Client certificate for a mutual-TLS destination: `{ certFile=, keyFile=, caFile= }`. See [Client certificates (mutual TLS)](#client-certificates-mutual-tls). |
 | `timeout` | integer | No | Seconds. |
+| `tls` | table | No | `Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files.` |
 | `verifyTls` | boolean | No | Default true. |
 | `live` | boolean | No | Default true. |
 
@@ -451,15 +484,15 @@ print(Resp.code)
 *function*
 
 ```lua
-linkiir.link.web.options{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.options{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
-Perform an outbound HTTP OPTIONS request.
+Perform an outbound HTTP OPTIONS request. The tls sub-table is supported identically on all seven verbs (get, post, put, patch, delete, head, options), which share one request path.
 
 **Usage**
 
 ```lua
-linkiir.link.web.options{ url=, headers=, params=, body=, auth=, tls=, timeout=, verifyTls=, live= }
+linkiir.link.web.options{ url=, headers=, params=, body=, auth=, timeout=, tls=, verifyTls=, live= }
 ```
 
 **Parameters**
@@ -471,8 +504,8 @@ linkiir.link.web.options{ url=, headers=, params=, body=, auth=, tls=, timeout=,
 | `params` | table | No | Query-string parameters. |
 | `body` | string | No | Request body (POST/PUT/PATCH). |
 | `auth` | table | No | `{ type='basic'\|'bearer', user=, password=, token= }.` |
-| `tls` | table | No | Client certificate for a mutual-TLS destination: `{ certFile=, keyFile=, caFile= }`. See [Client certificates (mutual TLS)](#client-certificates-mutual-tls). |
 | `timeout` | integer | No | Seconds. |
+| `tls` | table | No | `Client certificate for mutual TLS (mTLS): { certFile=, keyFile=, caFile= }. All three are filesystem paths to PEM files.` |
 | `verifyTls` | boolean | No | Default true. |
 | `live` | boolean | No | Default true. |
 

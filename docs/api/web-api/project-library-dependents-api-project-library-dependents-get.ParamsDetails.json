@@ -1,0 +1,1 @@
+{"parameters":[{"name":"project_id","in":"query","required":true,"schema":{"type":"string","title":"Project Id"}},{"name":"name","in":"query","required":true,"schema":{"type":"string","title":"Name"}},{"name":"version","in":"query","required":false,"schema":{"type":"string","default":"","title":"Version"}}]}

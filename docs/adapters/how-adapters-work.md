@@ -10,7 +10,7 @@ Every adapter follows the same shape, so once you have configured one the rest a
 
 ## What arrives
 
-An adapter comes as two parts inside a project you import.
+An adapter comes as two parts.
 
 | Part | What it is | What you do with it |
 | --- | --- | --- |
@@ -19,10 +19,21 @@ An adapter comes as two parts inside a project you import.
 
 The library knows *how* to talk to the remote system. The node decides *what* to ask for and *what happens next*. That split is why several nodes can share one library, and why updating the library does not disturb the configuration on each node.
 
-Both travel inside a project export, so an adapter you configure in DEV moves to TEST and PROD with the project. See [Project Import and Export](../administration/deployment/import-export.md).
+## How an adapter reaches your grid
+
+There are two routes, and they differ mainly in what happens after the first install.
+
+| Route | How it arrives | Getting later versions |
+| --- | --- | --- |
+| **A catalog** | Subscribe to the publisher's catalog. Its adapters appear in the node palette. | The grid tells you an update is waiting. Review the diff and apply it per node, keeping each node's configuration and wiring. |
+| **A project export** | Import a project that already contains the adapter | The next version arrives as another project to import and reconcile by hand |
+
+Catalogs are the supported way to keep an adapter current, because a node built from a catalog adapter stays linked to it and can be updated in place. See [Catalogs](../catalogs/index.md).
+
+Either way an adapter travels inside a project export once it is configured, so one you set up in DEV moves to TEST and PROD with the project. See [Project Import and Export](../administration/deployment/import-export.md).
 
 :::info Requesting the Adapters package
-Adapters ship separately from the Linkiir installation. Email [support@linkiir.com](mailto:support@linkiir.com) with your Linkiir version, your platform, and the systems you need to reach. You receive a project to import, with each node already linked to the library it needs.
+Adapters ship separately from the Linkiir installation. Email [support@linkiir.com](mailto:support@linkiir.com) with your Linkiir version, your platform, and the systems you need to reach. You receive either a catalog to subscribe to or a project to import, with each node already linked to the library it needs.
 :::
 
 ## Where the configuration lives
@@ -100,6 +111,6 @@ Turn on **Debug Logging** on the node while you are bringing it up, and turn it 
 
 ## Next
 
-- [Adapters catalog](index.md)
+- [Adapters overview](index.md)
 - [Interfaces and Core Nodes](../interface-development/interfaces/index.md)
 - [Error Handling and Retry](../interface-development/error-handling.md)

@@ -18,9 +18,9 @@ Small runtime helpers and filesystem access in one place. Time/env helpers (os.d
 linkiir.sys.guid(bits)
 ```
 
-Generate a random identifier.
+Generate a random GUID of the requested bit length.
 
-Generate a random identifier of the requested strength. `bits` is required — a call with no argument raises.
+Generate a random GUID. The bit count is required: it must be at least 128 and divisible by 8. Calling guid() with no argument, or with fewer than 128 bits, raises a Lua error.
 
 **Usage**
 
@@ -32,7 +32,7 @@ local id = linkiir.sys.guid(128)
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bits` | integer | Yes | Number of random bits. Minimum 128, and divisible by 8. Use 128 for a UUID-strength value. |
+| `bits` | integer | Yes | Length in bits. Minimum 128, must be divisible by 8. |
 
 **Returns**
 
@@ -40,14 +40,17 @@ local id = linkiir.sys.guid(128)
 
 **Errors**
 
-Raises a Lua error on failure, including when `bits` is missing, below 128, or not divisible by 8.
+Raises a Lua error on failure.
 
 Codes: `RUNTIME_ERROR`
 
 **Example**
 
 ```lua
-local Id = linkiir.sys.guid(128)
+local Id  = linkiir.sys.guid(128)   -- 128-bit GUID
+local Big = linkiir.sys.guid(256)   -- 256 bits when more entropy is wanted
+-- linkiir.sys.guid()   -- error: bits is required
+-- linkiir.sys.guid(32) -- error: must be at least 128 bits
 ```
 
 
@@ -139,7 +142,7 @@ linkiir.sys.nodeDir()
 
 Absolute path of the executing node's directory.
 
-Absolute path of the directory the executing node's files were loaded from. Under the live Runtime this is the staged run folder; under Run Test and Debug it is your dev clone. A relative schema path already resolves against this directory, so concatenation is not needed.
+Absolute path of the directory the executing node's files were loaded from. Under the live Runtime this is the staged run folder; under Run Test and Debug it is your dev clone. Replaces the deprecated __node_dir global. A relative schema path already resolves against this directory, so concatenation is not needed.
 
 **Usage**
 

@@ -83,6 +83,15 @@ const sidebars: SidebarsConfig = {
       ],
     },
     {
+      type: 'category', label: 'Catalogs', link: {type: 'doc', id: 'catalogs/index'},
+      items: [
+        'catalogs/subscribing',
+        'catalogs/using-catalog-content',
+        'catalogs/publishing',
+        'catalogs/offline-delivery',
+      ],
+    },
+    {
       type: 'category', label: 'High Availability', link: {type: 'doc', id: 'high-availability/index'},
       items: [
         'high-availability/terminology',
@@ -137,6 +146,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category', label: 'Release Notes', link: {type: 'doc', id: 'release-notes/index'},
       items: [
+        'release-notes/unreleased',
         'release-notes/linkiir-grid-v1.0.0',
       ],
     },

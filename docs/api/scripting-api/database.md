@@ -291,7 +291,7 @@ local driver = linkiir.store.MYSQL_ODBC
 conn:query{ sql=, live= }
 ```
 
-SELECT; rows navigable as a node tree.
+SELECT; rows navigable as a node tree. A params binding table is NOT supported: it is silently ignored, and $1 style placeholders are sent to the database verbatim. Interpolate values with conn:quote(), which escapes and quotes them for the driver in use.
 
 **Usage**
 
@@ -303,12 +303,8 @@ local rows, err = conn:query{ sql= }
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sql` | string | Yes | Complete SQL query text. |
+| `sql` | string | Yes | SQL query text. Values must already be interpolated, using conn:quote() to escape them. |
 | `live` | boolean | No | Default true; false simulates (test mode). |
-
-:::caution Build the complete statement in the script
-`sql` reaches the database exactly as written, including any `$1`-style markers, which arrive as literal text. Compose the whole statement in the script, and pass every value that came from a message, a variable, or user input through [`Connection:quote`](#connectionquote) as you build it.
-:::
 
 **Returns**
 
@@ -317,14 +313,17 @@ local rows, err = conn:query{ sql= }
 **Example**
 
 ```lua
-local Rows, Err = Conn:query{
-   sql = 'select id, name from patient where mrn = ' .. Conn:quote(Mrn),
-}
+local Mrn = Conn:quote(Value)
+local Rows, Err = Conn:query{ sql = 'select id, name from patient where mrn = ' .. Mrn }
 if not Rows then error(Err.message) end
 for i = 1, #Rows do
    print(Rows[i].id:value(), Rows[i].name:value())
 end
 ```
+
+:::caution Build the complete statement in the script
+`sql` reaches the database exactly as written, including any `$1`-style markers, which arrive as literal text. Compose the whole statement in the script, and pass every value that came from a message, a variable, or user input through [`Connection:quote`](#connectionquote) as you build it.
+:::
 
 
 ### `Connection:execute`
@@ -335,7 +334,7 @@ end
 conn:execute{ sql=, live= }
 ```
 
-INSERT/UPDATE/DELETE/DDL.
+INSERT/UPDATE/DELETE/DDL. A params binding table is NOT supported: it is silently ignored, and $1 style placeholders are sent to the database verbatim. Interpolate values with conn:quote(), which escapes and quotes them for the driver in use.
 
 **Usage**
 
@@ -347,12 +346,8 @@ local n, err = conn:execute{ sql= }
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sql` | string | Yes | Complete SQL statement text. |
+| `sql` | string | Yes | SQL statement text. Values must already be interpolated, using conn:quote() to escape them. |
 | `live` | boolean | No | Default true; false simulates (test mode). |
-
-:::caution Build the complete statement in the script
-As with `conn:query`, `sql` reaches the database exactly as written, and `$1`-style markers arrive as literal text. Compose the whole statement in the script, and pass every value that came from a message, a variable, or user input through [`Connection:quote`](#connectionquote) as you build it.
-:::
 
 **Returns**
 
@@ -361,11 +356,14 @@ As with `conn:query`, `sql` reaches the database exactly as written, and `$1`-st
 **Example**
 
 ```lua
-local Affected, Err = Conn:execute{
-   sql = 'update patient set active = false where mrn = ' .. Conn:quote(Mrn),
-}
+local Mrn = Conn:quote(Value)
+local Affected, Err = Conn:execute{ sql = 'update patient set active = 0 where mrn = ' .. Mrn }
 if not Affected then error(Err.message) end
 ```
+
+:::caution Build the complete statement in the script
+As with `conn:query`, `sql` reaches the database exactly as written, and `$1`-style markers arrive as literal text. Compose the whole statement in the script, and pass every value that came from a message, a variable, or user input through [`Connection:quote`](#connectionquote) as you build it.
+:::
 
 
 ### `Connection:merge`
@@ -542,7 +540,7 @@ conn:quote(s)
 
 Escape a value for use in a statement.
 
-Escape a value so it can be included in the `sql` text passed to `conn:query` or `conn:execute`. Use it on every value that came from a message, a variable, or user input.
+Escape a value so it can be included in the `sql` text passed to conn:query or conn:execute. Use it on every value that came from a message, a variable, or user input.
 
 **Usage**
 

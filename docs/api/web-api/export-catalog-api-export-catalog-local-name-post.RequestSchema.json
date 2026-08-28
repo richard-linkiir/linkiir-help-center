@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"properties":{"path":{"type":"string","title":"Path","description":"Absolute path of a folder on this server to write the catalog into. It must already exist; an empty one has a repository created in it."}},"type":"object","required":["path"],"title":"ExportCatalogRequest"}}}}}

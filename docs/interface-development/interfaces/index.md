@@ -32,6 +32,15 @@ The palette shows a group heading and a short name. In running text, naming a no
 
 Your project's own [node templates](../../administration/configurations/project-settings.md) appear in the same palette, under the group matching their type. Prebuilt [adapters](../../adapters/index.md) arrive as templates too, so an Epic or S3 node is added the same way as any other and configured with fields.
 
+### Finding things in the palette
+
+| Control | What it does |
+| --- | --- |
+| **Search** | Filters the palette by node name |
+| **All / Project / Catalog** tabs | Narrows to built-in nodes, this project's own templates, or adapters from a subscribed [catalog](../../catalogs/index.md) |
+| **Catalog filter** | On the **Catalog** tab, shows or hides individual catalogs when several are subscribed |
+| **Drag the palette's edge** | Resizes it, for adapter names too long to read at the default width |
+
 :::caution Destination Custom
 The palette also offers **Custom** under **Destination**. It has no runtime implementation in this release — a workflow containing one will not run it. Use **Transform Custom** for script-driven delivery instead: a transform node that calls out and never pushes is a destination in every practical sense. See [Custom Scripting Nodes](custom-scripting-nodes.md).
 :::

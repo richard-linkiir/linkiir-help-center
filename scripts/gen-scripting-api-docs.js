@@ -1,13 +1,40 @@
 // Renders linkiir_scripting_api.json into docs/api/scripting-api/: one page per
 // module (plus an index page), mirroring how gen-web-api-spec.js + gen-api-docs
-// split the Web API into one page per tag. Purely mechanical — no hand-editing
-// of the output; change the JSON or this script, then re-run
-// `npm run gen-scripting-api-docs`.
+// split the Web API into one page per tag. The pages themselves are generated —
+// never hand-edit them; change the JSON, an overlay (see below), or this script,
+// then re-run `npm run gen-scripting-api-docs`.
+//
+// Overlays are how hand-written prose lives alongside generated output. The spec
+// JSON is copied wholesale from grid, so anything written into it is lost on the
+// next copy — and anything written into the pages is lost on the next run.
+// Overlays are owned by this repo and survive both:
+//
+//   scripts/scripting-api-overlays/<module-slug>.intro.md  after the module
+//                                                          description, before
+//                                                          the first item
+//   scripts/scripting-api-overlays/<module-slug>.<item>.md appended to that one
+//                                                          item's section
+//
+// `<item>` is the item's anchor slug — `connection-query` for `Connection:query`.
+// Overlay files are authored as markdown and go through verbatim, so keep any
+// literal `{`/`<` out of them or MDX will choke.
 const fs = require('fs');
 const path = require('path');
 
 const SRC = path.join(__dirname, '..', 'linkiir_scripting_api.json');
 const OUT_DIR = path.join(__dirname, '..', 'docs', 'api', 'scripting-api');
+const OVERLAY_DIR = path.join(__dirname, 'scripting-api-overlays');
+
+// Tracked so a renamed module or item turns a silently-dropped overlay into a
+// warning, rather than prose that quietly stops appearing on the site.
+const usedOverlays = new Set();
+
+function readOverlay(name) {
+  const file = path.join(OVERLAY_DIR, `${name}.md`);
+  if (!fs.existsSync(file)) return null;
+  usedOverlays.add(`${name}.md`);
+  return fs.readFileSync(file, 'utf8').trim();
+}
 
 const SHOW_NOT_AVAILABLE = false;
 
@@ -38,7 +65,7 @@ function slugify(title) {
     .replace(/^-+|-+$/g, '');
 }
 
-function renderItem(it, level) {
+function renderItem(it, level, moduleSlug) {
   const hh = '#'.repeat(level);
   const lines = [`${hh} \`${it.name}\``, ''];
   const kind = it.kind;
@@ -92,15 +119,22 @@ function renderItem(it, level) {
     }
   }
 
+  const overlay = moduleSlug && readOverlay(`${moduleSlug}.${slugify(it.name)}`);
+  if (overlay) lines.push(overlay, '');
+
   return lines.join('\n');
 }
 
 // Module page body: H1 title (frontmatter handles the doc <title>), `module.name`
 // code span, description, then items — grouped under a "<Of> methods" H2 for any
 // items with an `of` (e.g. Node, Socket), otherwise rendered directly as H2s.
-function renderModulePage(m) {
+function renderModulePage(m, moduleSlug) {
   const lines = ['---', `title: ${m.title}`, '---', '', `# ${m.title}`, '', `\`${m.name}\``, ''];
   if (m.description) lines.push(mdxEscape(m.description), '');
+
+  const intro = readOverlay(`${moduleSlug}.intro`);
+  if (intro) lines.push('', intro, '');
+
   lines.push('---', '');
 
   const plainItems = m.items.filter((it) => !it.of);
@@ -113,12 +147,12 @@ function renderModulePage(m) {
   }
 
   for (const it of plainItems) {
-    lines.push(renderItem(it, 2), '');
+    lines.push(renderItem(it, 2, moduleSlug), '');
   }
   for (const [of, items] of grouped) {
     lines.push(`## ${of} methods`, '');
     for (const it of items) {
-      lines.push(renderItem(it, 3), '');
+      lines.push(renderItem(it, 3, moduleSlug), '');
     }
   }
 
@@ -179,8 +213,24 @@ fs.mkdirSync(OUT_DIR, {recursive: true});
 const modules = data.modules.map((m) => ({module: m, slug: slugify(m.title)}));
 
 for (const {module: m, slug} of modules) {
-  fs.writeFileSync(path.join(OUT_DIR, `${slug}.md`), renderModulePage(m));
+  fs.writeFileSync(path.join(OUT_DIR, `${slug}.md`), renderModulePage(m, slug));
 }
 fs.writeFileSync(path.join(OUT_DIR, 'index.md'), renderIndexPage(data, modules));
 
 console.log(`Wrote ${OUT_DIR}/ (index.md + ${modules.length} module pages)`);
+
+// An overlay that matches nothing is prose that has silently stopped being
+// published — usually because the module or item it names was renamed upstream.
+if (fs.existsSync(OVERLAY_DIR)) {
+  const orphaned = fs
+    .readdirSync(OVERLAY_DIR)
+    .filter((f) => f.endsWith('.md') && !usedOverlays.has(f));
+  if (orphaned.length) {
+    console.warn(`\nWARNING: ${orphaned.length} overlay(s) matched no module or item:`);
+    for (const f of orphaned) console.warn(`  - ${f}`);
+    console.warn('Rename them to match, or delete them if the prose is no longer wanted.');
+    process.exitCode = 1;
+  } else {
+    console.log(`Applied ${usedOverlays.size} overlay(s).`);
+  }
+}
