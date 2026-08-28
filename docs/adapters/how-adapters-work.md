@@ -32,7 +32,7 @@ Catalogs are the supported way to keep an adapter current, because a node built 
 
 Either way an adapter travels inside a project export once it is configured, so one you set up in DEV moves to TEST and PROD with the project. See [Project Import and Export](../administration/deployment/import-export.md).
 
-:::info Requesting the Adapters package
+:::info[Requesting the Adapters package]
 Adapters ship separately from the Linkiir installation. Email [support@linkiir.com](mailto:support@linkiir.com) with your Linkiir version, your platform, and the systems you need to reach. You receive either a catalog to subscribe to or a project to import, with each node already linked to the library it needs.
 :::
 
@@ -50,7 +50,7 @@ Every adapter's page in this section carries a **Configuration reference** table
 
 Fields on a supplied template are locked to their labels and types: you change values, not the form. Fields you add yourself stay fully editable. See [Interfaces and Core Nodes](../interface-development/interfaces/index.md).
 
-:::caution Credentials belong in fields, not scripts
+:::caution[Credentials belong in fields, not scripts]
 Enter every secret in its **password** field, or keep it in the project's **Variables** tab with **Secret** ticked. A credential pasted into a script travels in the project history and in every export. See [Security](../administration/security/index.md).
 :::
 
@@ -67,7 +67,7 @@ The same six steps work for every adapter in this section.
 
 Run each node on its own before starting the whole workflow. Script problems surface in **Run Test**; configuration problems surface when the node **starts** and name the field at fault.
 
-:::note Configuration is checked at start, not at save
+:::note[Configuration is checked at start, not at save]
 An adapter node saves with fields still empty. Validation happens when the node starts, and the message names the field — for example `CONFIG_ERROR: Client ID is not configured`.
 :::
 

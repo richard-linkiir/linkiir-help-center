@@ -103,13 +103,13 @@ Each row has a **Secret** checkbox. This is where connection passwords and keys 
 
 Reference a secret from node configuration and scripts by its label. Never paste a password into a Lua file: the file is committed to the project's history and travels in an export.
 
-:::caution Secrets do not survive a move to another installation
+:::caution[Secrets do not survive a move to another installation]
 Secrets leave in their encrypted form, and only the installation that encrypted them can read them back. Import the bundle somewhere else and every secret arrives unreadable — the labels are intact, the values are not usable. Re-enter them on the target before starting anything.
 
 Restoring onto the same installation, with the same key, keeps them working.
 :::
 
-:::tip Variables are what make a project portable
+:::tip[Variables are what make a project portable]
 A project whose endpoints are variables is repointed by editing this tab. A project with hostnames typed into every node has to be edited node by node. Decide this early — it is the difference between a five-minute promotion and an afternoon of it. See [Import and Export](../deployment/import-export.md).
 :::
 

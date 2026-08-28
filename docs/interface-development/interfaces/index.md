@@ -26,7 +26,7 @@ In the Workflow Builder, the palette groups node types under three headings. Dra
 
 Transport nodes are configured with fields, not code. You write Lua only where the work is genuinely yours: HTTP handling, transformation, and generated or fetched messages.
 
-:::note How this documentation names nodes
+:::note[How this documentation names nodes]
 The palette shows a group heading and a short name. In running text, naming a node type needs both, so this documentation writes them together — "Source HTTP", "Destination File/FTP". In the Grid you will see **HTTP** under **Source**.
 :::
 
@@ -41,7 +41,7 @@ Your project's own [node templates](../../administration/configurations/project-
 | **Catalog filter** | On the **Catalog** tab, shows or hides individual catalogs when several are subscribed |
 | **Drag the palette's edge** | Resizes it, for adapter names too long to read at the default width |
 
-:::caution Destination Custom
+:::caution[Destination Custom]
 The palette also offers **Custom** under **Destination**. It has no runtime implementation in this release — a workflow containing one will not run it. Use **Transform Custom** for script-driven delivery instead: a transform node that calls out and never pushes is a destination in every practical sense. See [Custom Scripting Nodes](custom-scripting-nodes.md).
 :::
 
@@ -130,6 +130,6 @@ The breadcrumb above the canvas switches project and workflow, and creates them 
 - [Destination Nodes](destination-nodes.md)
 - [Custom Scripting Nodes](custom-scripting-nodes.md)
 
-:::note Conditional fields
+:::note[Conditional fields]
 Many fields appear only once the setting they depend on is enabled. The FTP fields on a File/FTP node appear after you turn **Use FTP** on; the TLS fields appear after **Use SSL**. If a field in these pages is not visible, check the setting it depends on.
 :::

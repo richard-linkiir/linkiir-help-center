@@ -44,7 +44,7 @@ Restoring the working directory is therefore the cheaper route for replacing a s
 7. Record version, queue mode, database version, and timestamp.
 8. Test restore on a non-production host.
 
-:::note Backup is your own procedure
+:::note[Backup is your own procedure]
 `linkiirctl` lists `backup` and `restore` verbs, but they are provided by the platform installer rather than by Linkiir itself, and they are not available when running from a source tree. Check what your installation's `linkiirctl backup` actually does before relying on it:
 
 ```bash
@@ -72,10 +72,10 @@ Use it to move a project between environments or to keep a versioned artifact of
 8. Confirm **Settings → License** still shows your license. A restored working directory keeps the same License ID, so it should.
 9. Run controlled interface tests before accepting traffic.
 
-:::note Everyone is signed out after a restore
+:::note[Everyone is signed out after a restore]
 Sessions live in the running Grid process, so restarting it ends them. Users sign in again with their existing passwords — which are restored with the working directory and are not affected by the master key.
 :::
 
-:::caution Environment cloning
+:::caution[Environment cloning]
 When cloning PROD into TEST, replace endpoints and credentials before starting Runtime. Otherwise restored workflows may contact live systems.
 :::

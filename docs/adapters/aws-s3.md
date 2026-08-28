@@ -92,7 +92,7 @@ Set **Endpoint Override** to point the same nodes at MinIO, LocalStack, Backblaz
 | **Max Objects Per Poll** | number | `10` | Cap on objects handled in one cycle |
 | **Delete After Download** | bool | `true` | Remove the object from the bucket after a successful push |
 
-:::info Why objects must age
+:::info[Why objects must age]
 An object being written is visible in a listing before the write finishes. **Minimum Object Age** makes the poller ignore anything newer than the age you set, so it never downloads half a file. Lower it only when you know the writer uploads atomically.
 :::
 
@@ -119,7 +119,7 @@ An object being written is visible in a listing before the write finishes. **Min
 | **Allowed Prefix** | string | *(supplied)* | The viewer refuses any key outside this prefix |
 | **Max View Bytes** | number | `256 KB` | Cap on the size of an object the page will display |
 
-:::danger The Explorer page has no authentication
+:::danger[The Explorer page has no authentication]
 Anyone who can reach the node's HTTP port can read every object under **Allowed Prefix**. Use it on a local or isolated network for setup and demonstration, and do not expose it from a production installation or through a public endpoint. **Allowed Prefix** and **Max View Bytes** limit the blast radius; they are not access control. See [Security](../administration/security/index.md).
 :::
 

@@ -169,7 +169,7 @@ Select the records in **Logs** and click **Resubmit**. The confirmation window l
 
 Use it for the cases where the payload is the problem and the sender cannot resend: a bad delimiter, a field the receiver rejects, a truncated segment. It is not a substitute for fixing the sender, and every edit is a clinical record that no longer matches what was originally received — say so in your change record.
 
-:::caution Editing masked messages
+:::caution[Editing masked messages]
 HL7 payloads render masked unless you hold **Unredact PHI** and reveal the message in the window. A masked message cannot be edited, and an edit that still contains mask blocks is refused on the server as well as in the page. Both refusals exist for the same reason: an edit made against `██████` would publish the mask in place of the patient identifiers.
 
 Resubmitting itself needs **Resubmit messages**, and reading the payload needs **View log messages**. See [Users and Roles](../administration/configurations/user-roles.md).

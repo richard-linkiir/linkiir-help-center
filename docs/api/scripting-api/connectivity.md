@@ -42,7 +42,7 @@ tls = { certFile = 'certs/partner-client.pem',
 
 Scripts pass file paths only. Certificate and key contents are never loaded into a script value, so private keys do not appear in log records, message data, or script output.
 
-:::caution tls and verifyTls control different things
+:::caution[tls and verifyTls control different things]
 `tls` decides what Linkiir presents about itself. `verifyTls` decides whether Linkiir checks the *destination's* certificate. Adding `tls` leaves `verifyTls` at whatever it was, and the client certificate is presented for whatever value `verifyTls` holds. Keep `verifyTls` at its default of `true` for production destinations.
 :::
 

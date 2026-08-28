@@ -16,7 +16,7 @@ Production should use infrastructure managed to the organization’s availabilit
 - Monitoring of Runtime health, Archiver health, queue lag, disk, and database capacity.
 - Approved change and rollback procedures.
 
-:::caution Built-in brokers
+:::caution[Built-in brokers]
 Bundled brokers are convenient for DEV and TEST. They should not be assumed to satisfy production HA, capacity, patching, or support requirements.
 :::
 

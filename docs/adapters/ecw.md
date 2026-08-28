@@ -77,7 +77,7 @@ Register `ecw_public.pem` with eCW. Put `ecw_private.pem` on the machine running
 | **Live Mode** | bool | `true` | Off simulates the FHIR calls. Authentication is always live |
 | **Verify TLS** | bool | `true` | Verify the eCW server's TLS certificate |
 
-:::note The defaults point at staging
+:::note[The defaults point at staging]
 **Base URL** and **Auth URL** arrive pointing at eCW's staging environment, including a sample tenant segment. Replace both with your own environment before you turn Live Mode on.
 :::
 

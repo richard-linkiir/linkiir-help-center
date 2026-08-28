@@ -52,7 +52,7 @@ One directory, presented to both servers at the **same absolute path**.
 | Round-trip latency under 2 ms | Above that, project operations get slow and failovers become less predictable |
 | Its own redundancy | It is the one resource both servers depend on |
 
-:::caution Validate storage before anything is installed
+:::caution[Validate storage before anything is installed]
 Shared storage is the most common cause of a failed HA deployment. Confirm the same path, the service account's write access, cross-server visibility, latency, and file locking **before** the build. Support will walk through this validation with you — it takes minutes and saves days.
 :::
 
@@ -91,7 +91,7 @@ A managed offering is fine provided it is a real broker cluster with replication
 | Database port | Log records and message history | The Linkiir servers |
 | Node listener ports | Your inbound integration feeds | Your integration partners |
 
-:::info Integration traffic is a separate decision
+:::info[Integration traffic is a separate decision]
 The front door in front of the Linkiir HTTP port carries the UI and API. Inbound HL7 and HTTP feeds arrive on node listener ports on the active server. If those feeds must also follow a failover, plan for that explicitly — it is the most commonly missed part of an HA rollout. See [Planning Your Deployment](planning-your-deployment.md).
 :::
 

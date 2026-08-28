@@ -34,7 +34,7 @@ Changing anything here needs the **HTTP server settings** permission. See [Users
 
 File paths are read by the Runtime on the server, not by your browser. Give absolute paths — `/etc/linkiir/certs/cert.pem` — rather than paths that only exist on the machine you are sitting at.
 
-:::caution TLS needs both files
+:::caution[TLS needs both files]
 Saving with **Secure** on and either **Certificate** or **Private Key** blank is refused. It is refused deliberately: the Runtime's HTTP server will not start at all without them, so the alternative is every HTTP source node on the installation silently losing its listener.
 :::
 

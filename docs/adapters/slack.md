@@ -31,7 +31,7 @@ In your Slack workspace:
 4. Invite the app to the target channel. A bot that is not in the channel cannot post to it.
 5. Copy the **channel ID** from the channel's URL.
 
-:::caution Treat the bot token as a credential
+:::caution[Treat the bot token as a credential]
 Enter the token in the **API Token** field, which is masked and encrypted in the project. Anyone holding it can post as your app. Rotate it in Slack if it is ever exposed.
 :::
 

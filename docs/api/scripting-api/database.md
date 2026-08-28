@@ -321,7 +321,7 @@ for i = 1, #Rows do
 end
 ```
 
-:::caution Build the complete statement in the script
+:::caution[Build the complete statement in the script]
 `sql` reaches the database exactly as written, including any `$1`-style markers, which arrive as literal text. Compose the whole statement in the script, and pass every value that came from a message, a variable, or user input through [`Connection:quote`](#connectionquote) as you build it.
 :::
 
@@ -361,7 +361,7 @@ local Affected, Err = Conn:execute{ sql = 'update patient set active = 0 where m
 if not Affected then error(Err.message) end
 ```
 
-:::caution Build the complete statement in the script
+:::caution[Build the complete statement in the script]
 As with `conn:query`, `sql` reaches the database exactly as written, and `$1`-style markers arrive as literal text. Compose the whole statement in the script, and pass every value that came from a message, a variable, or user input through [`Connection:quote`](#connectionquote) as you build it.
 :::
 

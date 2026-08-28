@@ -51,7 +51,7 @@ You also need your org's **My Domain** host, for example `myorg.my.salesforce.co
 4. Connect an upstream node, send one message through, and check the log. Authentication still runs, so this pass proves the connected app is configured correctly.
 5. Turn **Live Mode** on and send another message.
 
-:::tip Already have a token
+:::tip[Already have a token]
 If your environment issues bearer tokens through another process, enter it in the **Key** field. When **Key** is set the node uses it directly and skips the OAuth exchange, so **Client ID** and **Client Secret** are not needed.
 :::
 

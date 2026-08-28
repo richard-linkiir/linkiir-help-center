@@ -24,7 +24,7 @@ Sends HL7 v2 over MLLP to a remote host and handles the ACK.
 | **Escape 8-Bit Characters** | off | Escape high-bit characters in the outbound stream. |
 | **Persistent Connection** | `Yes` | `Yes` reuses one connection; `No` connects per message. |
 
-:::caution Check Remote Host before you start
+:::caution[Check Remote Host before you start]
 The default is `localhost`, which is a valid value — so a node you forgot to configure starts cleanly and sends nowhere useful. Set it deliberately, and check it after importing a project from another environment.
 :::
 
@@ -71,7 +71,7 @@ A node sitting in its reconnect wait still stops when you stop it — it does no
 | **Verify Peer** | **on** | |
 | **Certificate Authority File** | *(empty)* | |
 
-:::note This node defaults to TLS on, and Source LLP defaults to off
+:::note[This node defaults to TLS on, and Source LLP defaults to off]
 If you are connecting two Linkiir installations, or sending to a receiver that expects plain MLLP, the defaults will not match. A TLS mismatch usually looks like a connection that opens and immediately drops. Set **Use SSL** on both ends deliberately rather than relying on defaults.
 :::
 
@@ -174,7 +174,7 @@ Leave **Use Remote Temporary File** on whenever the receiver polls the upload di
 
 **Keep Local Files** is on by default, which is useful while validating a new interface — the local copies are your evidence of what was sent. Plan for the disk they consume, or turn it off once the interface is established.
 
-:::caution FTP Overwrite Handling defaults to overwriting
+:::caution[FTP Overwrite Handling defaults to overwriting]
 The default silently replaces an existing remote file of the same name. Combined with timestamp or index naming, a redelivery can overwrite a file the receiver has not read yet. Set it to `not be uploaded` when silent replacement would lose data.
 :::
 
@@ -208,7 +208,7 @@ A transform node that calls out and never pushes is a destination in every pract
 
 Raising an error on a failed delivery matters: it stops the message being treated as delivered, so it is not silently lost. Check both the transport result and the status code — `resp` being present means the request completed, not that the receiver accepted it. See [Error Handling and Retry](../error-handling.md).
 
-:::note Destination Custom is not usable
+:::note[Destination Custom is not usable]
 The palette offers **Custom** under **Destination**, but it has no runtime implementation in this release. Use Transform Custom as above.
 :::
 

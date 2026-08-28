@@ -9,7 +9,7 @@ keywords: [HA planning, prerequisites, readiness, deployment, support, go-live]
 
 What to settle before an HA build, and what the build itself involves. Work through this page, then bring the answers to Linkiir support.
 
-:::info The build is done with Linkiir support
+:::info[The build is done with Linkiir support]
 Installing the pair, enabling HA, configuring your front door, and testing failover are done together with Linkiir support, against your environment. That is deliberate: the parts most likely to go wrong are your shared storage, your database, and your load balancer, and they are quicker to get right with someone who has done it before than from a written procedure.
 
 Email [support@linkiir.com](mailto:support@linkiir.com) with the completed planning decisions below.
@@ -43,7 +43,7 @@ These are yours to provide, and they are where HA deployments succeed or fail.
 | **Front door** | Which load balancer or virtual IP, and who administers it | [System Requirements](system-requirements.md#front-door) |
 | **Broker cluster** | Three nodes, self-hosted or managed, and which offering | [System Requirements](system-requirements.md#message-broker-cluster) |
 
-:::caution Validate shared storage before the build date
+:::caution[Validate shared storage before the build date]
 Confirm the same absolute path on both servers, write access for the service account, that a file created on one is visible on the other, latency under 2 ms, and working file locks. If any of that is unresolved, fix it first — the build cannot succeed over storage that does not meet these requirements.
 :::
 

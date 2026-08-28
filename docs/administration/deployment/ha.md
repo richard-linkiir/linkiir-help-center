@@ -54,6 +54,6 @@ The [High Availability](../../high-availability/index.md) section covers it in d
 | [Backup and DR](../../high-availability/backup-and-disaster-recovery.md) | Why HA is not a backup, and how DR differs |
 | [Planning Your Deployment](../../high-availability/planning-your-deployment.md) | What to decide and prepare before the build |
 
-:::caution HA is not a backup
+:::caution[HA is not a backup]
 Both servers read one copy of your data, so a deletion or a bad change affects both at once. An HA deployment still needs instance backups, a remote per project, and database backups. See [Backup and Restore](../backup-restore/index.md).
 :::

@@ -24,7 +24,7 @@ Three different capabilities that solve three different problems. They are routi
 
 ## Why HA is not a backup
 
-:::danger The two servers share one copy of your data
+:::danger[The two servers share one copy of your data]
 An HA pair has **one** working directory and **one** log database. That sharing is exactly what makes failover fast — and it means anything that damages the data damages it for both servers at the same instant. Delete a project on the active server and it is gone on the standby too, immediately.
 :::
 
@@ -48,7 +48,7 @@ Three separate things, and a backup is only complete when all three are configur
 | **Projects and workflows** | Each project pushed to **its own** remote | On change |
 | **Log database** — message history and log records | Your database platform's own backups | Per your retention policy |
 
-:::caution The instance backup does not include your integrations
+:::caution[The instance backup does not include your integrations]
 Projects are separate repositories with their own remotes. An instance backup protects settings, users, and roles — not your workflows. Configure both.
 :::
 

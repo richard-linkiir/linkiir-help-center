@@ -144,7 +144,7 @@ Testing runs your script without opening a port or sending anything to a real de
 
 The Debug panel shows the local variables at the end of `main` and the console output. You should see your `Received POST /intake` line.
 
-:::info Nothing leaves the test
+:::info[Nothing leaves the test]
 In both Run Test and Debug, `linkiir.flow.push` is forced into non-live mode. It validates your call and returns a placeholder message ID, but writes nothing to the queue. You can test freely without producing real messages.
 :::
 
@@ -220,7 +220,7 @@ curl -i http://127.0.0.1:9001/intake
 curl -i -X POST http://127.0.0.1:9001/intake
 ```
 
-:::note Requests only work from this machine
+:::note[Requests only work from this machine]
 Node listeners bind to `127.0.0.1` by default. `curl` from another machine will not connect until you deliberately change that. See [Security](../administration/security/index.md).
 :::
 
@@ -237,7 +237,7 @@ You should find:
 
 Open the data record to view the archived payload, and note its correlation ID. As you add nodes to this workflow, that same correlation ID appears at every node — searching it returns the whole journey of one message. See [Logging](../administration/troubleshooting/index.md) for the filters available.
 
-:::tip Give the Archiver a moment
+:::tip[Give the Archiver a moment]
 Message history is written by the Log Archiver in the background, so a record can take a second or two to appear in search. Live node state, by contrast, updates immediately in the workflow view.
 :::
 

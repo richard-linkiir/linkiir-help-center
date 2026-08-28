@@ -15,7 +15,7 @@ Scripts are written on the **Scripting** page. The file explorer on the left lis
 | **Format the current file** | The **Format** button in the editor toolbar, or <kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd> |
 | **Edit a message schema** | Open the schema file. The editor swaps to the Schema Editor's tree view automatically. |
 
-:::note The Schema Editor is part of the Scripting page
+:::note[The Schema Editor is part of the Scripting page]
 Schemas are no longer edited on a separate page. Opening an HL7 v2 or X12 grammar file on the Scripting page shows the Schema Editor's structure view in place of the text editor, so schemas and the scripts that use them are edited in one place. Any other JSON file opens as ordinary text.
 :::
 
@@ -55,7 +55,7 @@ end
 
 Signatures are in [Linkiir Scripting API](../../api/scripting-api/index.md).
 
-:::note HL7 and JSON use different modules
+:::note[HL7 and JSON use different modules]
 `linkiir.data` returns a navigable node tree, which suits HL7 v2 and X12. `linkiir.json` returns ordinary Lua tables. Passing `type = "json"` to `linkiir.data.extract` is an error, and the message tells you to use `linkiir.json` instead.
 :::
 

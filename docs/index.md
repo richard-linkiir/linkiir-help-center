@@ -120,6 +120,6 @@ About 20 minutes on a local machine.
 | Find out why messages are not arriving | [Troubleshooting](administration/troubleshooting/index.md) |
 | Move a project between environments | [Project Import and Export](administration/deployment/import-export.md) |
 
-:::info Documentation status
+:::info[Documentation status]
 Licensing and Notifications content is marked where commercial policy or feature availability is not yet finalized. Confirm against the release notes for your version.
 :::

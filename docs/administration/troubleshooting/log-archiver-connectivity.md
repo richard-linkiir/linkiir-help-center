@@ -66,7 +66,7 @@ A connection test is available without any Kafka tooling installed. See [Kafka C
 | Archiver behind after a long outage | Watch whether lag is decreasing; if so, wait |
 | Only one instance working, others idle | More Archivers than the workload can split across. Extra instances stay idle by design. |
 
-:::warning Aged-out records cannot be recovered
+:::warning[Aged-out records cannot be recovered]
 If the broker discarded records before they were copied to the Log DB, that history is gone. It cannot be rebuilt from the Log DB, because it never arrived.
 
 This is why lag alerting matters more than it appears to: lag approaching your retention window is the warning that history is about to be lost permanently. See [Kafka Configuration](../configurations/kafka-redpanda.md).
@@ -82,7 +82,7 @@ This is why lag alerting matters more than it appears to: lag approaching your r
 
 Duplicate records are prevented automatically, so a redelivery during recovery does not produce duplicate rows in log search.
 
-:::caution Do not skip past a backlog
+:::caution[Do not skip past a backlog]
 Manually advancing the Archiver past a backlog makes lag disappear from monitoring, but permanently discards the history it skipped. Let it catch up.
 :::
 

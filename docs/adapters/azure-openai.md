@@ -21,7 +21,7 @@ upstream node  →  Azure OpenAI Adapter  →  your next node
                 Azure OpenAI deployment
 ```
 
-:::caution Decide what content may leave your environment
+:::caution[Decide what content may leave your environment]
 This node sends message content to Azure. Before you turn Live Mode on, confirm that sending this data to your Azure resource is permitted under your organisation's agreements and your patient-data policy, and constrain what reaches the node upstream. See [Security](../administration/security/index.md).
 :::
 
@@ -73,7 +73,7 @@ API Key is quicker to set up. Entra ID avoids a long-lived key and is the better
 | **Request Timeout** | number | `30` | Seconds to wait for a response. Raise it for long prompts |
 | **Live Mode** | bool | `true` | When off, requests are simulated and nothing leaves the installation |
 
-:::note Which fields are visible
+:::note[Which fields are visible]
 The credential fields depend on **Authentication Mode**: switch the mode and the other set appears. This is the conditional-field behavior described in [Interfaces and Core Nodes](../interface-development/interfaces/index.md).
 :::
 

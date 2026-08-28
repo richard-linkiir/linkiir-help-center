@@ -19,7 +19,7 @@ A transfer moves your license from one installation to a replacement. You need i
 
 The dividing line is the working directory, not the machine. Carry it and your License ID travels with it. See [Backup and Restore](../backup-restore/index.md).
 
-:::tip The cheapest transfer is the one you avoid
+:::tip[The cheapest transfer is the one you avoid]
 If your goal is simply to replace a server, restoring the working directory onto the new host is fewer steps than a transfer, keeps your history and settings, and needs no vendor involvement. Consider that route first.
 :::
 
@@ -149,7 +149,7 @@ The Migration Code stays on record and is still shown on the tab, marked as canc
 | The old installation was destroyed before you clicked Migrate | Contact your vendor. There is a support path for a transfer without a Migration Code. |
 | Both installations are processing traffic | Stop the old installation's workflows immediately, then reconcile for duplicates. |
 
-:::caution Click Migrate before you decommission
+:::caution[Click Migrate before you decommission]
 The Migration Code can only be produced by the installation being transferred away from. Once that host is gone, so is the ability to generate it, and the transfer becomes a support case.
 
 Add "click Migrate and record the code" to your decommissioning checklist, ahead of "wipe the server".

@@ -43,7 +43,7 @@ Before you do:
 - Use organisation-issued certificates.
 - Restrict source addresses at the firewall to the networks that need access.
 
-:::caution Do not publish the Grid directly
+:::caution[Do not publish the Grid directly]
 The Grid is a full administrative surface: it edits interfaces, reads message payloads, and manages credentials. Put it behind a reverse proxy providing TLS and whatever access controls your organisation requires, and restrict who can reach that proxy. Treat it like any other administrative console, not like a public web application.
 :::
 
@@ -131,7 +131,7 @@ Apply the retention and purge policy your organisation requires to the Log DB, a
 
 ## 6. Message payload encryption
 
-:::info Not available
+:::info[Not available]
 Linkiir does not encrypt message payloads at the application level before they enter the queue. Payloads sit in the broker in the form the interface produced.
 
 Rely on broker TLS, storage-level encryption, access control, and network isolation. Do not assume payloads in the queue are encrypted by Linkiir.

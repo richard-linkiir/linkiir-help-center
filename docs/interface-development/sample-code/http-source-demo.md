@@ -114,7 +114,7 @@ Passing `key = patientId` gives the message a meaningful correlation key, which 
 
 `linkiir.json.parse` raises on malformed input, so a request that got past the source node's checks but is not valid JSON stops here rather than producing a broken output message.
 
-:::note JSON and HL7 use different modules
+:::note[JSON and HL7 use different modules]
 `linkiir.json` returns plain Lua tables. `linkiir.data` returns a navigable node tree and is for HL7 v2, X12, and XML — passing `type = "json"` to it is an error. The [HL7 demo](hl7-llp-scripting-llp.md) shows the tree style.
 :::
 

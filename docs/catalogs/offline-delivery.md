@@ -21,7 +21,7 @@ Nothing else about import differs from an ordinary subscription: the same valida
 
 Open the catalog in **Settings → Catalogs** and export it, giving the **folder to publish to**.
 
-:::caution The folder must already exist
+:::caution[The folder must already exist]
 Linkiir creates the git repository inside an empty folder, but will not create the folder itself. Refusing a path that does not exist is what catches a mistyped mount point — which would otherwise write a catalog into a folder nobody will ever look in.
 :::
 

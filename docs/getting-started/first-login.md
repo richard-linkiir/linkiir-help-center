@@ -41,7 +41,7 @@ There is no complexity requirement, no reuse history beyond "not the current one
 
 Until the change completes, the account can reach only login, logout, its own profile, and the change-password call. Every other request is refused, and says that the password change is still outstanding. This is why an install that appears to sign in and then bounce back to the login page is almost always an unfinished password change rather than a broken installation.
 
-:::caution Do this before opening remote access
+:::caution[Do this before opening remote access]
 Linkiir binds to `127.0.0.1` on a fresh install. Complete this password change before you change the bind address, publish the port through a proxy or load balancer, or open a firewall rule. See [Security](../administration/security/index.md).
 :::
 

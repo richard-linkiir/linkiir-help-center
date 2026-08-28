@@ -196,7 +196,7 @@ You receive either a **catalog** to subscribe to, which keeps its adapters updat
 - **Secrets stored as masked fields.** Passwords, API keys, and secret keys are encrypted in the project and never written to logs. Private keys stay on disk and are referenced by path.
 - **Errors in the node log.** Each adapter reports a stable error code and a readable message, listed on its page.
 
-:::caution Build against a sandbox first
+:::caution[Build against a sandbox first]
 Point a new adapter at the vendor's sandbox or test environment, with synthetic data, before connecting it to production. See [Sample Code](../interface-development/sample-code/index.md) for the practices the demo interfaces follow.
 :::
 

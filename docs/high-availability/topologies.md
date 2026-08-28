@@ -101,7 +101,7 @@ flowchart TB
 | **Shared storage** | NFS or a clustered filesystem |
 | **Watch out for** | Memory contention — a Linkiir server and a broker on one host compete. Size RAM for both |
 
-:::caution Do not run the front door on either Linkiir host
+:::caution[Do not run the front door on either Linkiir host]
 Losing that host would take the load balancer with it, so a Linkiir failure and a front-door failure become the same event. Put it on a separate host, or use a load balancer you already run.
 :::
 
@@ -185,7 +185,7 @@ flowchart TB
 | **Shared storage** | A volume that supports simultaneous access from both pods, with file locking |
 | **Watch out for** | Pod identity. Because hostnames are not stable in a cluster, each instance needs a pinned identity — support configures this during the build |
 
-:::note Kubernetes adds no availability here
+:::note[Kubernetes adds no availability here]
 It is no simpler than three Linux servers and no more scalable, because Linkiir is two instances either way. Choose it because it fits how you already deploy and operate software, not in the expectation of better availability.
 :::
 

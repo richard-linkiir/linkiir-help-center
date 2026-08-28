@@ -43,7 +43,7 @@ Without that line, only the `linkiir.*` API exists.
 
 Use the adapter to get an interface working with minimal edits, then move to the native API as you touch each script. The complete name mapping is in [Linkiir Scripting API](../../api/scripting-api/index.md).
 
-:::note Message definitions need converting
+:::note[Message definitions need converting]
 Linkiir uses JSON schema files rather than the binary message-definition formats used by some engines. Existing definitions need converting to Linkiir schemas before `hl7.parse` or `linkiir.data.extract` can use them. Plan for this — it is usually the longest step.
 :::
 

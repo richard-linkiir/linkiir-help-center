@@ -54,7 +54,7 @@ Always patch the **standby** first.
 
 One interruption, under 10 seconds, at a moment you chose.
 
-:::caution Run one release on the pair
+:::caution[Run one release on the pair]
 A pair is designed to run one Linkiir version. Mixed versions are a transient state during a rolling patch, not something to sit on — finish step 5 in the same maintenance window.
 :::
 
@@ -103,7 +103,7 @@ Your monitoring system should watch these. Linkiir does not send alerts by itsel
 | Broker cluster | Fewer than three nodes reachable |
 | HA events in the audit log | Any role change, planned or not |
 
-:::tip Alert on successful failovers too
+:::tip[Alert on successful failovers too]
 A failover nobody noticed is a server that is still broken, and a pair with no remaining redundancy. Treat a successful failover as an incident to follow up, not a non-event.
 :::
 

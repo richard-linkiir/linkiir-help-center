@@ -42,6 +42,6 @@ Administration covers the complete Linkiir platform lifecycle.
 - Confirm scheduled backups completed and include the master encryption key.
 - Confirm production workflow changes were approved and auditable.
 
-:::note Alerting is not built in
+:::note[Alerting is not built in]
 Linkiir has no built-in error or inactivity notifications. These checks need to come from your own monitoring system — see [Alerting and Notifications](notifications/index.md).
 :::

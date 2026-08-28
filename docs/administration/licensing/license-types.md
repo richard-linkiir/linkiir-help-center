@@ -18,7 +18,7 @@ The type is a label recorded in your license. What actually governs your install
 
 Two installations both showing **Professional** can have different limits, and a Professional license can carry a larger allowance than an Enterprise one. Read the numbers on the tab, not the type name, when you want to know what your installation may do.
 
-:::note What each type entitles you to commercially
+:::note[What each type entitles you to commercially]
 Which type suits your deployment, what it costs, how long it runs, and what support comes with it are commercial matters set by your agreement. This page describes what the product does with a license, not what you are entitled to buy. Check your agreement or ask your vendor.
 :::
 

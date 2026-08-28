@@ -22,7 +22,7 @@ In **Settings → Catalogs**, click **Create a catalog** and supply:
 | **Description** | Shown to subscribers |
 | **Repository to publish to** | An SSH URL, or a folder on this machine |
 
-:::caution The repository must already exist, and must be empty
+:::caution[The repository must already exist, and must be empty]
 Linkiir does not create the remote repository — make it on your git host first. It must be **empty**: publishing into a repository that already has content would either be refused by git, or graft the catalog onto an unrelated project's history. The check is read-only, so a rejected URL is left exactly as it was.
 
 For a folder, the folder itself must exist. Linkiir creates the git repository inside an empty one, but will not invent the folder — that is what catches a mistyped mount point, which would otherwise write a catalog somewhere nobody will look.

@@ -86,7 +86,7 @@ Expiry does not delete anything. Your projects, workflows, scripts, users, setti
 
 Workflows drain rather than being killed, so messages in flight are not lost. Anything already queued waits for the workflows to start again.
 
-:::caution Grace is a safety net, not a schedule
+:::caution[Grace is a safety net, not a schedule]
 The grace period exists so a renewal that slips by a few days does not take your interfaces down. Treating it as normal operating headroom means the day something does go wrong with a renewal, you have already spent your margin.
 
 Renew on **Expiring Soon**, not in grace.

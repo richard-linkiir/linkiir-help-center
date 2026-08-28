@@ -77,7 +77,7 @@ Two identifiers make it searchable:
 
 Search a correlation ID to see one message's complete journey. Preserve it when you create a new message from an inbound one, rather than generating an unrelated ID — otherwise the trail breaks at that node.
 
-:::note History is written in the background
+:::note[History is written in the background]
 Records reach the Log DB a moment after the event. Live node state updates immediately in the workflow view; searchable history catches up within seconds.
 :::
 

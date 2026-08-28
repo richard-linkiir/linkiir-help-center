@@ -20,7 +20,7 @@ You will write the script and start the listener in [the next step](start-http-s
 
 A project holds workflows, scripts, schemas, project variables, and libraries.
 
-:::tip Names versus identifiers
+:::tip[Names versus identifiers]
 Linkiir gives every project, workflow, and node a stable internal identifier separate from its display name. Renaming something for clarity later will not break the interface, so pick a readable name now.
 :::
 
@@ -56,7 +56,7 @@ The palette groups node types under three headings. This walkthrough uses **Sour
 
 See [Source Nodes](../interface-development/interfaces/source-nodes.md) and [Destination Nodes](../interface-development/interfaces/destination-nodes.md) for the full field reference for each.
 
-:::note Naming in this documentation
+:::note[Naming in this documentation]
 The palette shows a group heading and a short node name. This documentation writes them together — "Source HTTP", "Destination File/FTP" — so a node type can be named unambiguously in running text. In the Grid you will see **HTTP** under **Source**.
 :::
 
@@ -73,7 +73,7 @@ The node's name is the first thing in the same panel — set it to `Intake` — 
 
 These are the fields the node needs before it will start. The Grid does not mark fields as required — a node with a missing value fails at start with a message naming the field, for example `missing required field: Route Path`.
 
-:::info There is no port field on the node
+:::info[There is no port field on the node]
 The HTTP server and its port are configured once for the installation, in **Settings → Http Server**. Every HTTP source node answers on that one server and is told apart by its **Route Path**. You set the port in the next step.
 
 That is why Route Path has to be unique: two nodes claiming `/intake` cannot both answer it.

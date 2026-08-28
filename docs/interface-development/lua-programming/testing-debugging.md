@@ -47,7 +47,7 @@ Content-Type: application/json
 
 Samples persist with the node, so they travel with the interface and are available to whoever maintains it next.
 
-:::caution Use synthetic data
+:::caution[Use synthetic data]
 Samples are stored with the project and are visible to anyone who can open the node. Use clearly fake identifiers — `TEST000001`, `TEST^PATIENT`, `19700101` — never real patient data.
 :::
 
@@ -105,7 +105,7 @@ In both modes, `linkiir.flow.push` is forced into non-live mode. It validates yo
 
 This is worth knowing when reading test output: a push that "succeeded" in Run Test confirms the call is well-formed, not that delivery works. Verify delivery by starting the node.
 
-:::warning Outbound calls are real
+:::warning[Outbound calls are real]
 Only queue output is contained. `linkiir.link.web.post`, `linkiir.link.mail.send`, and `linkiir.store` calls execute for real during a test.
 
 Point them at test endpoints while developing, or pass `live = false` to the `linkiir.link` calls that accept it.

@@ -12,7 +12,7 @@ These pages explain what HA is, what it costs you in infrastructure, and which s
 
 These pages cover the concepts, the design, and how to use HA once you have it. [Using the HA Settings](ha-settings.md) and [Operating an HA Pair](operations.md) are the two you will come back to.
 
-:::info The initial build is done with Linkiir support
+:::info[The initial build is done with Linkiir support]
 Installing the pair and configuring your load balancer are done with Linkiir support, against your environment. Once it is built, everything you do with HA day to day is in the Linkiir UI and documented here.
 
 When you have chosen a topology, email [support@linkiir.com](mailto:support@linkiir.com) with your platform, your chosen topology, and your message volumes.
@@ -44,7 +44,7 @@ When you have chosen a topology, email [support@linkiir.com](mailto:support@link
 
 ## What HA does not protect against
 
-:::danger HA is not a backup
+:::danger[HA is not a backup]
 The two servers share **one** working directory and **one** log database. That sharing is what makes failover fast — and it means anything that damages the data damages it for both servers at the same instant.
 :::
 

@@ -61,7 +61,7 @@ Register an application at the [Athena developer portal](https://developer.athen
 | **Live Mode** | bool | `true` | Off simulates the API calls. Authentication is always live |
 | **Verify TLS** | bool | `true` | Verify the Athena server's TLS certificate |
 
-:::note Change the practice before going live
+:::note[Change the practice before going live]
 **Practice ID** arrives set to Athena's sandbox practice so the node is runnable out of the box. Replace it with your own practice, and switch **Base URL** from the preview host to production, in the same edit.
 :::
 

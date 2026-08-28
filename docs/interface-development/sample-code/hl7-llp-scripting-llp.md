@@ -27,7 +27,7 @@ Drag **LLP** from the **Source** group of the palette.
 
 With `Default`, Linkiir generates the ACK for you and the node needs no script. Switch to `Custom` only when the sender requires specific ACK codes or application-level validation before acknowledging — then supply an ACK script whose `main(Data)` returns the ACK text.
 
-:::caution Decide what your ACK promises
+:::caution[Decide what your ACK promises]
 A `Default` ACK confirms the message was received and accepted into the workflow. It does not confirm the downstream system got it. If your sender treats an ACK as proof of end-to-end delivery, that expectation needs correcting, or the interface needs a `Custom` ACK that waits for more.
 :::
 
@@ -127,7 +127,7 @@ Connect `Map ADT` to this node. It has no script.
 
 **Use SSL — check it.** This node defaults to TLS on, while Source LLP defaults to off. Sending to a receiver expecting plain MLLP with **Use SSL** left on produces a connection that opens and immediately drops.
 
-:::note Remote Host defaults to `localhost`
+:::note[Remote Host defaults to `localhost`]
 That is a valid value, so a node you forgot to configure starts cleanly and sends nowhere useful. Set it deliberately, and re-check it after importing this project into another environment.
 :::
 

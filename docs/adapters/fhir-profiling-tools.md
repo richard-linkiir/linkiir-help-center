@@ -45,7 +45,7 @@ The first request after a version change builds the profile data it serves, so i
 | **Refresh** | bool | `false` | Turn on to rebuild the profile data on the next request, then turn it off |
 | **Specifications Path** | string | *(empty)* | Where the specification files live. Empty uses the copy supplied with the node |
 
-:::caution The page has no authentication
+:::caution[The page has no authentication]
 Like any HTTP source node, this route answers anyone who can reach the port. It serves specification templates rather than patient data, but treat it as an internal tool: keep it on a restricted network and stop the node when you are not using it. See [Security](../administration/security/index.md).
 :::
 

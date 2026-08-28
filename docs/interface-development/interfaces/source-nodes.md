@@ -80,7 +80,7 @@ A new HTTP source node starts from a default script that does roughly this: pars
 
 Method checks, path checks, authentication, and body size limits are yours to enforce in the script — there are no node fields for them. Reject what you do not accept with an explicit status code rather than letting it through.
 
-:::caution There is no authentication field on this node
+:::caution[There is no authentication field on this node]
 An HTTP source node answers any request that reaches its route. If the node needs to be reachable beyond your own machine, enforce authentication in the script and restrict access at the network layer. See [Security](../../administration/security/index.md).
 :::
 
@@ -154,7 +154,7 @@ Polls a directory, or an FTP/FTPS/SFTP server, and creates one message per file.
 | **Hex EOF Character** | *(empty)* | End-of-file marker, when the sender writes one. |
 | **Ignored Segments List** | *(empty)* | Segments to skip, for HL7 and X12 input. |
 
-:::caution Set Minimum File Age when a sender writes in place
+:::caution[Set Minimum File Age when a sender writes in place]
 A poller can read a file the sender is still writing, producing a truncated message. Set **Minimum File Age** to a few seconds, or ask the sender to write to a temporary name and rename on completion. A rename is atomic and needs no age delay.
 :::
 
@@ -191,7 +191,7 @@ Turn on **Use FTP** to poll a remote server instead of a local directory.
 
 After a remote file is downloaded, a second **Processed Files** field controls the remote side, with its own options: `Delete remote files after downloading` or `Move remote files after downloading to another remote directory`. With the move option, set **FTP Path for Downloaded Files**.
 
-:::note Two fields named Processed Files
+:::note[Two fields named Processed Files]
 With **Use FTP** on, the form shows two fields with this label — one for the remote server and one for the local directory. Tell them apart by their options: the remote one names *remote files*.
 :::
 

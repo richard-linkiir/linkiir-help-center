@@ -60,7 +60,7 @@ Both servers appear here by themselves, within about 30 seconds of starting. Nei
 | Only one listed | The other has not started yet, or is not pointed at the same shared working directory. Start it, or correct its working directory |
 | More than two listed | A third installation is pointed at this working directory — often a test instance or a clone. Stop it, then use **Forget** to remove it from the list |
 
-:::note Forget only works on a stopped server
+:::note[Forget only works on a stopped server]
 A server that is still running re-registers itself and reappears in the list. Stop it first, then forget it.
 :::
 
@@ -73,7 +73,7 @@ Two fields per server are editable, and you can edit either server from either s
 | **Display name** | Whenever you want friendlier labels than hostnames. Cosmetic only |
 | **Address its partner uses** | Only when the address shown is not how the other server reaches this one — split-horizon DNS, a management network, or a reverse proxy in between |
 
-:::tip Name a server for where it is, not what it does
+:::tip[Name a server for where it is, not what it does]
 Use "Rack 2" or "DC-West", never "Backup" or "Standby". Roles move at every failover, so a name describing the role is wrong half the time. The current role is shown beside the name anyway.
 :::
 
@@ -117,7 +117,7 @@ After enabling, confirm three things:
 2. Each server shows the other as its partner, reachable.
 3. The role badge appears in the top bar on every page.
 
-:::caution Both servers showing ACTIVE
+:::caution[Both servers showing ACTIVE]
 This should not happen, and it means the two servers are not working as a pair. Do not run integrations in this state — contact [support@linkiir.com](mailto:support@linkiir.com).
 :::
 
@@ -138,7 +138,7 @@ For the history of who took over and when, use the **audit log**. It is the dura
 
 The timings control how quickly an unplanned failure is detected and acted on. They are shared by both servers, and the page shows the estimated failover window as you change them.
 
-:::caution Keep the defaults unless you have measured a reason to change them
+:::caution[Keep the defaults unless you have measured a reason to change them]
 The defaults give roughly 18 seconds to detect an unplanned failure and about 30 seconds to full recovery. Shortening them makes needless failovers more likely during a brief storage or network hiccup; lengthening them extends your outage. Change them with support, not on a hunch.
 :::
 

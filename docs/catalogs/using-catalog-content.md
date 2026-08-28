@@ -14,7 +14,7 @@ Catalog adapters appear in the Builder's node palette alongside the built-in nod
 
 Creating the node copies the adapter's files into the project and installs any libraries the adapter pins that the project does not already have. Nothing else on the grid is touched.
 
-:::tip Palette display
+:::tip[Palette display]
 The palette's grouping and sort controls are in its header, and the palette itself can be resized to suit how many adapters you have installed.
 :::
 
@@ -87,7 +87,7 @@ A published library version is immutable, and versions are additive. Installing 
 
 Moving nodes onto a new version is its own step, for the same reason node updates are: "version 2.0.0 exists" and "this node runs 2.0.0" are two different facts. The Scripting page lists every node still on an older version and moves a chosen set forward.
 
-:::info Publishing a version is shared, immediately
+:::info[Publishing a version is shared, immediately]
 Publishing a library version checks the project hub, not just your own clone, so two collaborators cannot each publish a different `2.0.0`. Publishing also propagates to other collaborators' clones straight away — it is the act that declares a version ready for other people, so their version pickers and update indicators reflect it without waiting for a pull.
 :::
 

@@ -49,7 +49,7 @@ The button sits next to **Configure remote** on purpose: they are the two ways a
 | **The remote URL** | An imported project starts out local-only. Connect a remote on the target grid if you want one. |
 | **Git history** | A bundle is a snapshot. If the commit history matters, move the project by remote instead. |
 
-:::tip Check the bundle before you send it
+:::tip[Check the bundle before you send it]
 A bundle is an ordinary zip. Open it to confirm what you are handing over. `linkiir_project.json` at the root records the project name, description, workflow count, who exported it, and when.
 :::
 
@@ -155,7 +155,7 @@ Work through these before you start anything.
 5. **Test before starting.** Use **Run Test** on each script against its samples. Queue output is held back during a test, so nothing is produced.
 6. **Start one workflow and verify end to end** before starting the rest.
 
-:::caution An imported project can point at production
+:::caution[An imported project can point at production]
 This is the failure worth guarding against: importing a PROD project into TEST and starting it, while its destination nodes still name production systems. Repoint every endpoint before the first start, not after.
 :::
 

@@ -28,7 +28,7 @@ What does change it is a new working directory. A fresh install pointed at an em
 | Changes with a new working directory? | Yes — that is a new installation |
 | Survives an upgrade? | Yes, as long as the working directory is preserved |
 
-:::caution Restoring a backup preserves the License ID; a fresh install does not
+:::caution[Restoring a backup preserves the License ID; a fresh install does not]
 This is the practical consequence worth knowing. Restoring your working directory onto a replacement server keeps the same License ID, so your existing License Code keeps working. Installing fresh and importing projects produces a new License ID and needs a [transfer](license-transfer.md).
 
 Plan which route you are taking before you rebuild a server, not after. See [Backup and Restore](../backup-restore/index.md).

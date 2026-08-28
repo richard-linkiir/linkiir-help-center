@@ -14,7 +14,7 @@ Pick your platform:
 
 Both walkthroughs end at the same place: the Grid open at `http://127.0.0.1:8080`.
 
-:::info Version numbers
+:::info[Version numbers]
 Commands below use `1.0.0` as an example. Replace it with the version you downloaded.
 :::
 
@@ -142,7 +142,7 @@ Download `LinkiirSetup-1.0.0-x64.exe` and double-click it.
 4. If you chose your own broker, click **Test Connection** and confirm it passes before continuing.
 5. Review the summary and click **Install**.
 
-:::note Unsigned builds
+:::note[Unsigned builds]
 Windows SmartScreen warns about installers without a code-signing certificate. If you see that warning on a build you obtained from Linkiir, choose **More info → Run anyway**.
 :::
 

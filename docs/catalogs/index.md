@@ -29,7 +29,7 @@ A catalog lives in a git repository, and a grid gets at it one of three ways:
 
 The folder option exists because plenty of integration servers sit on a network segment with no outbound access at all. A catalog exported to a mounted share or a removable drive is the same object as one served over SSH — same layout, same manifest, same immutable library versions — so a grid can hold both kinds at once. See [Offline delivery](offline-delivery.md).
 
-:::info Any git host
+:::info[Any git host]
 A catalog repository can be hosted anywhere that speaks git. There is no restriction to a particular provider.
 :::
 

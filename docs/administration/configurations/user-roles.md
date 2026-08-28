@@ -155,7 +155,7 @@ Nothing here is built in; these are combinations worth considering.
 
 Withhold the Scripting and Node Configuration groups from operational roles. They are what separate running an interface from changing one.
 
-:::caution Grant PHI access deliberately
+:::caution[Grant PHI access deliberately]
 **Unredact PHI** is what turns a masked payload into readable patient data. Decide it separately rather than letting a broad "developer" role pick it up on the way past.
 :::
 
@@ -196,7 +196,7 @@ Edit the user and set **New Password**. Leaving it blank keeps the current passw
 
 The trash icon, with a confirmation. Deleting an account ends its sessions.
 
-:::warning You cannot remove the last access administrator
+:::warning[You cannot remove the last access administrator]
 A change that would leave nobody holding both **Manage users** and **Manage roles** is refused — whether by deleting that user or by editing their roles down. There is no superuser to fall back on, so an installation that lost them would need manual recovery on the server.
 
 Keep at least two accounts holding both.
