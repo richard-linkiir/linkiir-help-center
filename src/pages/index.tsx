@@ -45,6 +45,14 @@ const QUICK_LINKS: QuickLink[] = [
     label: 'Find out why messages are not arriving',
     to: '/docs/administration/troubleshooting/',
   },
+  {
+    label: 'Open a support ticket',
+    to: '/docs/support/standard-support',
+  },
+  {
+    label: 'Report a critical production outage',
+    to: '/docs/support/urgent-production-support',
+  },
 ];
 
 function HomepageHeader() {
@@ -72,6 +80,48 @@ function HomepageHeader() {
         </div>
       </div>
     </header>
+  );
+}
+
+// Jira Service Management customer portal. Kept here as a constant so the
+// navbar entry in docusaurus.config.ts and this band stay easy to keep in sync.
+const SUPPORT_PORTAL_URL =
+  'https://linkiir.atlassian.net/servicedesk/customer/portals';
+
+function SupportBand() {
+  return (
+    <section className={styles.supportSection}>
+      <div className="container">
+        <div className={styles.supportPanel}>
+          <div className={styles.supportCopy}>
+            <p className="lnk-eyebrow">Need help?</p>
+            <Heading as="h2" className={styles.supportTitle}>
+              Open a support ticket
+            </Heading>
+            <p className={styles.supportBody}>
+              Submit a request in the Linkiir support portal, or email{' '}
+              <a href="mailto:support@linkiir.com">support@linkiir.com</a>. For a
+              critical production outage, call the 24/7 support number issued to
+              your organisation.
+            </p>
+          </div>
+          <div className={styles.supportActions}>
+            <Link
+              className="button button--primary button--lg lnk-btn-shimmer"
+              href={SUPPORT_PORTAL_URL}
+              target="_blank"
+              rel="noopener noreferrer">
+              Submit a Support Ticket →
+            </Link>
+            <Link
+              className="button button--outline button--lg"
+              to="/docs/support/">
+              Support Options →
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -103,6 +153,7 @@ export default function Home(): ReactNode {
       <HomepageHeader />
       <main>
         <HomepageFeatures />
+        <SupportBand />
         <QuickLinks />
       </main>
     </Layout>

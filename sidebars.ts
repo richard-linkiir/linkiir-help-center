@@ -144,6 +144,15 @@ const sidebars: SidebarsConfig = {
       items: ['faq/common-questions', 'faq/tips-best-practices'],
     },
     {
+      type: 'category', label: 'Support', link: {type: 'doc', id: 'support/index'},
+      items: [
+        'support/standard-support',
+        'support/urgent-production-support',
+        'support/submitting-a-request',
+        'support/phi-policy',
+      ],
+    },
+    {
       type: 'category', label: 'Release Notes', link: {type: 'doc', id: 'release-notes/index'},
       items: [
         'release-notes/unreleased',

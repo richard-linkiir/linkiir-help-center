@@ -125,6 +125,8 @@ error("bad MRN: " .. mrn)
 
 Test samples are stored with the project and visible to anyone who can open the node. Use clearly synthetic identifiers — `TEST000001`, `TEST^PATIENT`, `19700101`. See [Error Handling and Retry](../../interface-development/error-handling.md).
 
+The same boundary applies when you raise a support ticket: payloads belong in your Log DB, not in a support request. Linkiir Support does not accept PHI and will never ask you for it — see [PHI in Support Requests](../../support/phi-policy.md).
+
 Apply the retention and purge policy your organisation requires to the Log DB, and restrict who can view payloads and perform replays. Note that the permission model is coarse: **View Logs** covers reading message history including payloads, and there is no separate permission for payload access. Where a stricter split matters, separate environments rather than relying on roles within one.
 
 ---

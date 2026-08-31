@@ -186,8 +186,15 @@ const config: Config = {
         },
         {to: '/docs/getting-started/', label: 'Getting Started', position: 'left'},
         {to: '/docs/api/', label: 'API', position: 'left'},
-        {to: '/docs/release-notes/', label: 'Release Notes', position: 'right'},
-        {to: '/docs/faq/', label: 'FAQ', position: 'right'},
+        {
+          // Jira Service Management customer portal. External on purpose: the
+          // help center explains the process, the portal is where a ticket is
+          // actually raised. Release Notes, FAQ, and Support stay reachable via
+          // the Documentation sidebar rather than crowding the navbar.
+          href: 'https://linkiir.atlassian.net/servicedesk/customer/portals',
+          label: 'Submit a Ticket',
+          position: 'right',
+        },
       ],
     },
     // No `footer` key: src/theme/Footer supplies the linkiir.com footer, so the

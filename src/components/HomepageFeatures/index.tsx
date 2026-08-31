@@ -78,6 +78,17 @@ const FeatureList: FeatureItem[] = [
       </>
     ),
   },
+  {
+    title: 'Support',
+    to: '/docs/support/',
+    Svg: require('@site/static/img/feat-support.svg').default,
+    description: (
+      <>
+        Open a ticket by email or the support portal, what to expect in your
+        inbox, and the 24/7 urgent production support policy.
+      </>
+    ),
+  },
 ];
 
 function Feature({title, to, Svg, description}: FeatureItem) {

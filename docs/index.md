@@ -101,6 +101,19 @@ About 20 minutes on a local machine.
   <span class="lnk-card__body">Queue and database choices, and day-to-day operating practice.</span>
 </a>
 
+<a class="lnk-card lnk-card-link" href="/docs/support/">
+  <svg class="lnk-card__icon" viewBox="0 0 32 32" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6.5 19v-3a9.5 9.5 0 0 1 19 0v3" />
+      <path d="M6.5 16.5H8a1.5 1.5 0 0 1 1.5 1.5v4A1.5 1.5 0 0 1 8 23.5H6.5A2.5 2.5 0 0 1 4 21v-2a2.5 2.5 0 0 1 2.5-2.5z" />
+      <path d="M25.5 16.5H24a1.5 1.5 0 0 0-1.5 1.5v4a1.5 1.5 0 0 0 1.5 1.5h1.5A2.5 2.5 0 0 0 28 21v-2a2.5 2.5 0 0 0-2.5-2.5z" />
+      <path d="M25.5 23.5V25a3.5 3.5 0 0 1-3.5 3.5h-4" />
+    </g>
+  </svg>
+  <span class="lnk-card__title">Support</span>
+  <span class="lnk-card__body">Open a ticket by email or the support portal, and the 24/7 urgent production support policy.</span>
+</a>
+
 </div>
 
 ## Common tasks
@@ -119,6 +132,8 @@ About 20 minutes on a local machine.
 | Understand High Availability and pick a topology | [High Availability](high-availability/index.md) |
 | Find out why messages are not arriving | [Troubleshooting](administration/troubleshooting/index.md) |
 | Move a project between environments | [Project Import and Export](administration/deployment/import-export.md) |
+| Open a support ticket | [Standard Support](support/standard-support.md), or the [support portal](https://linkiir.atlassian.net/servicedesk/customer/portals) |
+| Report a critical production outage | [24/7 Urgent Production Support](support/urgent-production-support.md) |
 
 :::info[Documentation status]
 Licensing and Notifications content is marked where commercial policy or feature availability is not yet finalized. Confirm against the release notes for your version.
