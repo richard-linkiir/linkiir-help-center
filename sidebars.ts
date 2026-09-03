@@ -73,6 +73,8 @@ const sidebars: SidebarsConfig = {
         'adapters/ecw',
         'adapters/modmed',
         'adapters/athena',
+        'adapters/dexcom',
+        'adapters/pointclickcare',
         'adapters/salesforce',
         'adapters/dynamics-365',
         'adapters/aws-s3',

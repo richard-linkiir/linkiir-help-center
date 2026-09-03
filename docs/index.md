@@ -58,7 +58,7 @@ About 20 minutes on a local machine.
     </g>
   </svg>
   <span class="lnk-card__title">Adapters</span>
-  <span class="lnk-card__body">Prebuilt connectors for EHR, CRM, cloud storage, messaging, and AI systems.</span>
+  <span class="lnk-card__body">Prebuilt connectors for EHR, CRM, medical device, cloud storage, messaging, and AI systems.</span>
 </a>
 <a class="lnk-card lnk-card-link" href="/docs/administration/">
   <svg class="lnk-card__icon" viewBox="0 0 32 32" aria-hidden="true">

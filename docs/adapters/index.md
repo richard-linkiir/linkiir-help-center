@@ -1,7 +1,7 @@
 ---
 title: Adapters
-description: Prebuilt Linkiir adapters for Epic, Cerner, eCW, ModMed, Athena, Salesforce, Dynamics 365, AWS S3, Slack, and Azure OpenAI. Configure them with fields, not code.
-keywords: [adapters, connectors, integrations, FHIR, EHR, CRM, S3, Slack, Azure OpenAI]
+description: Prebuilt Linkiir adapters for Epic, Cerner, eCW, ModMed, Athena, PointClickCare, Dexcom CGM, Salesforce, Dynamics 365, AWS S3, Slack, and Azure OpenAI. Configure them with fields, not code.
+keywords: [adapters, connectors, integrations, FHIR, EHR, CRM, S3, Slack, Azure OpenAI, PointClickCare, Dexcom, CGM]
 ---
 
 # Adapters
@@ -80,6 +80,27 @@ You receive either a **catalog** to subscribe to, which keeps its adapters updat
   </svg>
   <span class="lnk-card__title">Athena Health</span>
   <span class="lnk-card__body">Poll the Athena Health platform for a practice and push each patient found.</span>
+</a>
+<a class="lnk-card lnk-card-link" href="/docs/adapters/dexcom">
+  <svg class="lnk-card__icon" viewBox="0 0 32 32" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 17h5l3-6 4 12 3.5-9 2.5 5h8" />
+    </g>
+  </svg>
+  <span class="lnk-card__title">Dexcom CGM</span>
+  <span class="lnk-card__body">Authorize a Dexcom account and read continuous glucose values on a timer.</span>
+</a>
+<a class="lnk-card lnk-card-link" href="/docs/adapters/pointclickcare">
+  <svg class="lnk-card__icon" viewBox="0 0 32 32" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4.5" y="9" width="23" height="19" rx="3" />
+      <path d="M11 9V6a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v3" />
+      <path d="M16 15v7" />
+      <path d="M12.5 18.5h7" />
+    </g>
+  </svg>
+  <span class="lnk-card__title">PointClickCare</span>
+  <span class="lnk-card__body">Authenticate with two-legged OAuth and call any PointClickCare endpoint.</span>
 </a>
 <a class="lnk-card lnk-card-link" href="/docs/adapters/salesforce">
   <svg class="lnk-card__icon" viewBox="0 0 32 32" aria-hidden="true">
@@ -168,6 +189,8 @@ You receive either a **catalog** to subscribe to, which keeps its adapters updat
 | [eClinicalWorks](ecw.md) | eCW FHIR endpoint | Source Custom | `ecw_fhir` |
 | [ModMed](modmed.md) | ModMed FHIR endpoint | Source Custom | `modmed_fhir` |
 | [Athena Health](athena.md) | Athena Health platform | Source Custom | `athena_health` |
+| [Dexcom CGM](dexcom.md) | Dexcom CGM account | Source HTTP, Source Custom | `dexcom_cgm` |
+| [PointClickCare](pointclickcare.md) | PointClickCare organization | Source Custom, Transform Custom | `pcc_api` |
 | [Salesforce](salesforce.md) | Salesforce REST API | Transform Custom | `salesforce` |
 | [Dynamics 365](dynamics-365.md) | Microsoft Dynamics 365 CRM | Source Custom | `dynamics_crm` |
 | [AWS S3](aws-s3.md) | S3 and S3-compatible storage | Source Custom, Transform Custom, Source HTTP | `aws_s3` |
@@ -182,6 +205,8 @@ You receive either a **catalog** to subscribe to, which keeps its adapters updat
 | --- | --- |
 | Understand how an adapter is delivered and configured | [How Adapters Work](how-adapters-work.md) |
 | Pull patient data from an EHR | [Epic](epic.md), [Cerner](cerner.md), [eClinicalWorks](ecw.md), [ModMed](modmed.md), [Athena Health](athena.md) |
+| Read glucose data from a CGM device | [Dexcom CGM](dexcom.md) |
+| Read or write records in long-term care | [PointClickCare](pointclickcare.md) |
 | Read or write records in a CRM | [Salesforce](salesforce.md), [Dynamics 365](dynamics-365.md) |
 | Move messages through object storage | [AWS S3](aws-s3.md) |
 | Send an alert to a channel | [Slack](slack.md) |

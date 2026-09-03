@@ -82,7 +82,13 @@ Live Mode is the switch that separates "prove the configuration" from "move data
 
 Authentication is always live, in both states. That is deliberate: a first run with Live Mode off tells you whether your credentials, endpoint, and key file are right, without touching patient data.
 
-Most adapters ship with Live Mode on and are safe to leave that way once configured. The AWS S3 nodes ship with it off, because they write to a bucket.
+Most adapters ship with Live Mode on and are safe to leave that way once configured. Some ship with it **off**, so that an imported adapter cannot reach a live system until someone deliberately enables it:
+
+| Adapter | Why it ships with Live Mode off |
+| --- | --- |
+| [AWS S3](aws-s3.md) | It writes objects to a bucket |
+| [Dexcom CGM](dexcom.md) | It reads a named person's health data |
+| [PointClickCare](pointclickcare.md) | It reads and writes resident records |
 
 ## Adding a second instance
 

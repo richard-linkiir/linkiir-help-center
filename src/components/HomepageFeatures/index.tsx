@@ -40,8 +40,8 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/feat-adapters.svg').default,
     description: (
       <>
-        Prebuilt connectors for EHR, CRM, cloud storage, messaging, and AI
-        systems. Configured with fields, not code.
+        Prebuilt connectors for EHR, CRM, medical device, cloud storage,
+        messaging, and AI systems. Configured with fields, not code.
       </>
     ),
   },
