@@ -165,3 +165,18 @@ html[data-theme='dark'] .openapi-tabs__code-item--linkiir::after {
 html[data-theme='dark'] .openapi-tabs__code-item--http {
   color: #ffffff;
 }
+
+/* ────────── SHIPLOG LAUNCHER / BACK-TO-TOP COLLISION ──────────
+   The ShipLog feedback launcher (see src/components/ShipLogWidget) is fixed at
+   right: 20px / bottom: 20px, and theme-classic's back-to-top button is fixed
+   at right: 1.3rem / bottom: 1.3rem — they land on top of each other on every
+   doc page. The launcher's z-index is 2147483647, so it wins and the back-to-top
+   button becomes unclickable; lift the button clear of it instead.
+
+   The selector matches on substring because that button is styled by a CSS
+   module, so its real class name carries a build-time hash
+   (`backToTopButton_<hash>`). Swizzling BackToTopButton just to restyle it would
+   mean owning a copy of the component, which is the worse trade. */
+[class*='backToTopButton'] {
+  bottom: 5rem;
+}
